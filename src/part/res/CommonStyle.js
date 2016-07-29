@@ -16,6 +16,10 @@ const CommonStyle = {
   commonRadius: 5,
   mediumButtonHeight: 35,
   mediumButtonWidth: 90,
+  // loading
+  spinnerSize: 100,
+  spinnerColor: '#589C9D',
+  spinnerType: 'Pulse',
   // trip
   tripCellSelectedColor: 'red',
   // mine

@@ -15,6 +15,8 @@ import TitleBar from './part/TitleBar';
 import TripDate from './part/TripDate';
 import TripList from './part/TripList';
 
+import TimeUtils from './part/utils/TimeUtils';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -33,24 +35,32 @@ class TripPage extends React.Component {
 
     this.state = {
       selectedIndex : 1,
+      startDay: 0,
+      endDay: 0,
     };
   }
 
   selectToday() {
     this.setState({
       selectedIndex: 1,
+      startDay: 0,
+      endDay: 0,
     });
   }
 
   selectTomorrow() {
     this.setState({
       selectedIndex: 2,
+      startDay: 1,
+      endDay: 1,
     });
   }
 
   selectFuture() {
     this.setState({
       selectedIndex: 3,
+      startDay: 0,
+      endDay: 7,
     });
   }
 
@@ -69,6 +79,10 @@ class TripPage extends React.Component {
           />
         <TripList
           navigator={this.props.navigator}
+          status={'assigned'}
+          start_time={TimeUtils.getTime(this.state.startDay, true)}
+          end_time={TimeUtils.getTime(this.state.endDay, false)}
+          loadingViewFunc={this.props.loadingViewFunc}
         />
       </View>
     );
@@ -77,6 +91,7 @@ class TripPage extends React.Component {
 
 TripPage.propTypes = {
   navigator: PropTypes.object,
+  loadingViewFunc: PropTypes.func,
 };
 
 module.exports = TripPage;

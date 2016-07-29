@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
 	ListView,
+	RefreshControl,
 } from 'react-native';
 
 import React, {
@@ -14,6 +15,7 @@ import React, {
 import CommonStyle from './res/CommonStyle';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import ApiUtils from './utils/ApiUtils';
 
 const styles = StyleSheet.create({
 	cardBg6x: {
@@ -156,9 +158,10 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
 		marginLeft: CommonStyle.pageHorizontalMargin,
     fontSize: CommonStyle.mediumFont,
-	}
-
+	},
 });
+
+const TYPE_PIN = 0;
 
 function ListPinItem({onItemClick}) {
   return(
@@ -336,42 +339,68 @@ function ListBaoItem({onItemClick}) {
   );
 };
 
+var flagTime = '';
+
 class TripList extends Component {
   constructor(props) {
     super(props);
 
 		const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 	  this.state = {
-	    dataSource: ds.cloneWithRows([{
-				isBao: true,
-			},
-			{
-				isBao: true,
-			},
-			{
-				isBao: false,
-			},
-			{
-				isBao: false,
-			},
-			{
-				isBao: false,
-			},
-			{
-				isBao: false,
-			},
-			{
-				isBao: false,
-			},
-			{
-				isBao: false,
-			}]),
+	    dataSource: ds.cloneWithRows([]),
+			page: 1,
+			pageSize: 10,
+			hasMore: false,
+			data: [],
+			refreshing: false,
+			start_time: props.start_time,
+			end_time: props.end_time,
 	  };
 
 		this.goToBaoDetail = this.goToBaoDetail.bind(this);
 		this.goToPinDetail = this.goToPinDetail.bind(this);
 		this.renderItem = this.renderItem.bind(this);
+		this.loadDataFromServe = this.loadDataFromServe.bind(this);
+		this.reloadOrderList = this.reloadOrderList.bind(this);
+		this.loadMoreOrderList = this.loadMoreOrderList.bind(this);
   }
+
+	componentDidMount() {
+		this.reloadOrderList()
+	}
+
+	componentWillReceiveProps(nextProps) {
+			console.log('componentWillReceiveProps nextProps = ' + nextProps.start_time + ' this.props = ' + this.props.start_time);
+			let startTimeEqual = nextProps.start_time === this.props.start_time;
+			//
+			// // three step
+			// // 1. when different, save next time flagTime
+			// if (!startTimeEqual) flagTime = nextProps.start_time;
+			// // 2. when flagTime equals current time, enough! let's start
+			// if (flagTime === this.props.start_time) {
+			// 	this.reloadOrderList();
+			// }
+			if (!startTimeEqual) {
+				// this.setState({
+				// 	start_time: nextProps.start_time,
+				// 	end_time: nextProps.end_time
+				// });
+
+				console.log('props func start_time = ' + nextProps.start_time);
+				console.log('props func end_time = ' + nextProps.end_time);
+
+				this.reloadOrderList(nextProps.start_time, nextProps.end_time);
+			}
+	}
+
+	// shouldComponentUpdate(nextProps, nextState) {
+	// 	console.log('nextProps = ' + nextProps.start_time + ' this.props = ' + this.props.start_time);
+	// 	let startTimeEqual = nextProps.start_time === this.props.start_time;
+	// }
+	//
+	// componentWillUpdate() {
+	// 	this.loadDataFromServe();
+	// }
 
 	goToBaoDetail() {
 		this.props.navigator.push(
@@ -389,8 +418,99 @@ class TripList extends Component {
 		);
 	}
 
+	arrayMerge(arr1, arr2) {
+	 return arr1.concat(arr2.filter((item) =>
+		 arr1.indexOf(item) < 0
+	 ));
+ 	}
+
+	reloadOrderList(start_time, end_time) {
+    this.setState({ page: 1 });
+
+		if (start_time == null) {
+			start_time = this.props.start_time;
+		}
+
+		if (end_time == null) {
+			end_time = this.props.end_time;
+		}
+
+    this.loadDataFromServe(start_time, end_time);
+  }
+
+  loadMoreOrderList() {
+    if (this.state.hasMore) {
+      this.setState({
+        page: this.state.page + 1,
+      });
+
+			const start_time = this.props.start_time;
+			const end_time = this.props.end_time;
+
+      this.loadDataFromServe(start_time, end_time);
+    }
+  }
+
+	loadDataFromServe(start_time, end_time) {
+
+		const callback = {
+			success: data => {
+				if (this.props.loadingViewFunc != null) {
+					this.props.loadingViewFunc(false);
+				}
+
+				let hasMore = true;
+				if (data != null && data.length < this.state.pageSize) {
+					hasMore = false;
+				}
+
+				console.log('success, page = ' + this.state.page + ' data.size = ' + data.length);
+
+				if (this.state.page === 1) {
+					this.setState({
+					 dataSource: this.state.dataSource.cloneWithRows(data),
+					 data,
+					 hasMore,
+					 refreshing: false,
+					});
+				} else {
+					const originData = this.state.data;
+					const combinedArray = this.arrayMerge(originData, data);
+					this.setState({
+					 dataSource: this.state.dataSource.cloneWithRows(combinedArray),
+					 data: combinedArray,
+					 hasMore,
+					 refreshing: false,
+					});
+ 				}
+			},
+			failed: msg => {
+				if (this.props.loadingViewFunc != null) {
+					this.props.loadingViewFunc(false);
+				}
+				alert(msg);
+			},
+		};
+
+		if (this.props.loadingViewFunc != null) {
+			this.props.loadingViewFunc(true);
+		}
+
+		console.log('start_time = ' + start_time);
+		console.log('end_time = ' + end_time);
+
+		ApiUtils.postRequest({funcName: 'busline/batch/list',
+			params: {
+				start_time: start_time,
+				end_time: end_time,
+				status: this.props.status,
+				page_num: this.state.page,
+				page_size: this.state.pageSize,
+			}, callback});
+	}
+
 	renderItem(rowData) {
-		if (rowData.isBao) {
+		if (rowData.type != TYPE_PIN) {
 			return (
 				<ListBaoItem
 					onItemClick={this.goToBaoDetail}/>
@@ -405,16 +525,27 @@ class TripList extends Component {
 
   render() {
       return (
-				<ListView
-					dataSource={this.state.dataSource}
-					renderRow={(rowData) => this.renderItem(rowData)}
-				/>
+					<ListView
+						dataSource={this.state.dataSource}
+						renderRow={(rowData) => this.renderItem(rowData)}
+						onEndReached={this.loadMoreOrderList}
+						refreshControl={
+		          <RefreshControl
+		            refreshing={this.state.refreshing}
+		            onRefresh={this.reloadOrderList}
+		          />
+		        }
+					/>
   	   );
   }
 }
 
 TripList.propTypes = {
 	navigator: PropTypes.object,
+	status: PropTypes.String,
+	start_time: PropTypes.String,
+	end_time: PropTypes.String,
+	loadingViewFunc: PropTypes.func,
 };
 
 module.exports = TripList;

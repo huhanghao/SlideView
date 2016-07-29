@@ -34,7 +34,6 @@ const ApiUtils = {
     // return { token: '123456' };
   },
   post({ url, params }) {
-
     const timeout = new Promise((resolve, reject) => {
       setTimeout(() => reject(new Error('request timeout')), 5000);
     });

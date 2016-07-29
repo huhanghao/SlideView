@@ -38,12 +38,12 @@ class TripDate extends React.Component {
     super(props);
     this.state = {
       selectedIndex: props.selectedIndex,
-      todayIconNormal: null,
-      todayIconSelected: null,
-      tomorrowIconNormal: null,
-      tomorrowIconSelected: null,
-      futureIconNormal: null,
-      futureIconSelected: null,
+      todayIconNormal: 0,
+      todayIconSelected: 0,
+      tomorrowIconNormal: 0,
+      tomorrowIconSelected: 0,
+      futureIconNormal: 0,
+      futureIconSelected: 0,
     };
   }
 

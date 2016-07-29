@@ -2,6 +2,8 @@ import {
   StyleSheet,
   ToastAndroid,
   NativeModules,
+  Dimensions,
+  View,
 } from 'react-native';
 
 import React, {
@@ -19,10 +21,22 @@ import TripPage from './TripPage';
 import OrderPage from './OrderPage';
 import MinePage from './MinePage';
 
+// loading view
+import Spinner from 'react-native-spinkit';
+const window = Dimensions.get('window');
+const ScreenHeight = window.height;
+const ScreenWidth = window.width;
+const spinnerSize = CommonStyle.spinnerSize;
+
 const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
+  spinner: {
+		position: 'absolute',
+		top: (ScreenHeight/2) - (spinnerSize/2),
+		left: (ScreenWidth/2) - (spinnerSize/2),
+	},
 });
 
 class MainPage extends Component {
@@ -38,7 +52,10 @@ class MainPage extends Component {
       tab3Selected: null,
       tab4Normal: null,
       tab4Selected: null,
+      isLoading: true,
     };
+
+    this.showLoadingView = this.showLoadingView.bind(this);
   }
 
   componentWillMount() {
@@ -71,46 +88,67 @@ class MainPage extends Component {
 
   }
 
+  showLoadingView(show) {
+    this.setState({
+      isLoading: show,
+    });
+  }
+
   render() {
     return (
-      <TabBar
-        style={styles.content}
-        navTextColor={CommonStyle.fontGray}
-        navTextColorSelected={CommonStyle.themeColorGreen}
-        onItemSelected={(index) => {}}
-      >
-        <TabBar.Item
-          icon={this.state.tab1Normal}
-          selectedIcon={this.state.tab1Selected}
-          title={'首页'}
-        >
-          <TripPage navigator={this.props.navigator} />
-        </TabBar.Item>
+      <View style={styles.content}>
 
-        <TabBar.Item
-          icon={this.state.tab2Normal}
-          selectedIcon={this.state.tab2Selected}
-          title={'订单'}
+        <TabBar
+          style={styles.content}
+          navTextColor={CommonStyle.fontGray}
+          navTextColorSelected={CommonStyle.themeColorGreen}
+          onItemSelected={(index) => {}}
         >
-          <OrderPage navigator={this.props.navigator} />
-        </TabBar.Item>
+          <TabBar.Item
+            icon={this.state.tab1Normal}
+            selectedIcon={this.state.tab1Selected}
+            title={'首页'}
+          >
+            <TripPage navigator={this.props.navigator}
+              loadingViewFunc={this.showLoadingView}
+              />
+          </TabBar.Item>
 
-        {/* <TabBar.Item
-          icon={tabIcon3Normal}
-          selectedIcon={tabIcon3Selected}
-          title={'收入'}
-        >
-          <InComePage navigator={this.props.navigator} />
-        </TabBar.Item>*/}
+          <TabBar.Item
+            icon={this.state.tab2Normal}
+            selectedIcon={this.state.tab2Selected}
+            title={'订单'}
+          >
+            <OrderPage navigator={this.props.navigator}
+              loadingViewFunc={this.showLoadingView}
+            />
+          </TabBar.Item>
 
-        <TabBar.Item
-          icon={this.state.tab4Normal}
-          selectedIcon={this.state.tab4Selected}
-          title={'我'}
-        >
-          <MinePage navigator={this.props.navigator} />
-        </TabBar.Item>
-      </TabBar>
+          {/* <TabBar.Item
+            icon={tabIcon3Normal}
+            selectedIcon={tabIcon3Selected}
+            title={'收入'}
+          >
+            <InComePage navigator={this.props.navigator} />
+          </TabBar.Item>*/}
+
+          <TabBar.Item
+            icon={this.state.tab4Normal}
+            selectedIcon={this.state.tab4Selected}
+            title={'我'}
+          >
+            <MinePage navigator={this.props.navigator} />
+          </TabBar.Item>
+        </TabBar>
+
+        <Spinner
+          style={styles.spinner}
+          isVisible={this.state.isLoading}
+          size={spinnerSize}
+          type={CommonStyle.spinnerType}
+          color={CommonStyle.spinnerColor}
+        />
+      </View>
     );
   }
 

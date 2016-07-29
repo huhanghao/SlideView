@@ -5,14 +5,13 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
+  Dimensions,
 } from 'react-native';
 
 import React, {
   PropTypes,
   Component,
 } from 'react';
-
-var Spinner = require('react-native-spinkit');
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -21,8 +20,14 @@ import TitleBar from './part/TitleBar';
 import StringRes from './part/res/StringRes';
 import CommonStyle from './part/res/CommonStyle';
 
-import ApiUtils from './utils/ApiUtils';
+import ApiUtils from './part/utils/ApiUtils';
 import md5 from 'md5';
+
+import Spinner from 'react-native-spinkit';
+const window = Dimensions.get('window');
+const ScreenHeight = window.height;
+const ScreenWidth = window.width;
+const spinnerSize = CommonStyle.spinnerSize;
 
 const styles = StyleSheet.create({
   container: {
@@ -82,8 +87,9 @@ const styles = StyleSheet.create({
   },
   spinner: {
     position: 'absolute',
-    top: 0,
- },
+    top: (ScreenHeight/2) - (spinnerSize/2),
+    left: (ScreenWidth/2) - (spinnerSize/2),
+  },
 });
 
 class LoginPage extends Component {
@@ -100,17 +106,20 @@ class LoginPage extends Component {
   }
 
   login() {
-    // const callback = {
-    //   success: data => {
-    //     this.setState({
-    //       isLoading: false,
-    //     })
-    //     this.goToMain();
-    //   },
-    //   failed: msg => {
-    //     alert(msg);
-    //   },
-    // };
+    const callback = {
+      success: data => {
+        this.setState({
+          isLoading: false,
+        });
+        this.goToMain();
+      },
+      failed: msg => {
+        alert(msg);
+        this.setState({
+          isLoading: false,
+        })
+      },
+    };
 
     const phone = this.state.phoneText;
     const psw = this.state.pswText;
@@ -119,8 +128,8 @@ class LoginPage extends Component {
 
     this.setState({
       isLoading: true,
-    })
-    // ApiUtils.getToken(phone, pswMd5, callback);
+    });
+    ApiUtils.getToken(phone, pswMd5, callback);
   }
 
   goToMain() {
@@ -137,6 +146,14 @@ class LoginPage extends Component {
           navigator={this.props.navigator}
           isShowBackButton
           />
+
+        <Spinner
+          style={styles.spinner}
+          isVisible={this.state.isLoading}
+          size={spinnerSize}
+          type={CommonStyle.spinnerType}
+          color={CommonStyle.spinnerColor}
+        />
 
         <View style={styles.aboveArea}>
           <Icon name="ios-phone-portrait" size={30} color="#900" style={styles.avatar} />
@@ -176,14 +193,6 @@ class LoginPage extends Component {
           </TouchableOpacity>
 
         </View>
-
-        <Spinner
-          style={styles.spinner}
-          isVisible={this.state.isLoading}
-          size={100}
-          type={'Wave'}
-          color={'black'}
-        />
 
       </View>
 		);
