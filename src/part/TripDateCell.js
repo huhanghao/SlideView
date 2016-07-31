@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     height: 100,
+    backgroundColor: 'white',
   },
 
   menuItemSelectedStyle: {

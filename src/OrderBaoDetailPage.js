@@ -32,7 +32,6 @@ class OrderBaoDetailPage extends React.Component {
     super();
   }
 
-
   render() {
     return (
       <View style={styles.container}>
@@ -43,6 +42,7 @@ class OrderBaoDetailPage extends React.Component {
         <ScrollView style={ {flex: 1} }>
           <OrderBaoContent
             navigator={this.props.navigator}
+            order={this.props.order}
           />
         </ScrollView>
         <SliderView />

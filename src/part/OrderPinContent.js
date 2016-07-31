@@ -22,24 +22,24 @@ const styles = StyleSheet.create({
 	cardBg6x: {
 		backgroundColor: 'white',
 		height: CommonStyle.commonRowHeight * 6,
+		margin: CommonStyle.pageHorizontalMargin,
     borderColor: CommonStyle.dividerGray,
-    margin: CommonStyle.pageHorizontalMargin,
     borderWidth: CommonStyle.borderWidth,
 		borderRadius: CommonStyle.commonRadius,
 	},
   cardBg5x: {
 		backgroundColor: 'white',
     height: CommonStyle.commonRowHeight * 5,
+		margin: CommonStyle.pageHorizontalMargin,
     borderColor: CommonStyle.dividerGray,
-    margin: CommonStyle.pageHorizontalMargin,
     borderWidth: CommonStyle.borderWidth,
 		borderRadius: CommonStyle.commonRadius,
   },
   cardBg2x: {
     backgroundColor: 'white',
     height: CommonStyle.commonRowHeight * 2,
+		margin: CommonStyle.pageHorizontalMargin,
     borderColor: CommonStyle.dividerGray,
-    margin: CommonStyle.pageHorizontalMargin,
     borderWidth: CommonStyle.borderWidth,
 		borderRadius: CommonStyle.commonRadius,
   },
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     borderRadius: CommonStyle.iconSize / 2,
     height: CommonStyle.iconSize,
     width: CommonStyle.iconSize,
-    backgroundColor: CommonStyle.themeColorGreen,
+    backgroundColor: CommonStyle.themeColorRed,
   },
   dotLine: {
     borderStyle: 'dotted',
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
 
 });
 
-function ListHeader() {
+function ListHeader({order}) {
   return(
 		<View>
 
@@ -259,7 +259,9 @@ function ListHeader() {
 
 				<Text
 					style={styles.subTitle}
-				>昆明————大理</Text>
+				>
+				{order.batch_name}
+				</Text>
 
 				<View
 					style={styles.spaceTypeArea}
@@ -272,7 +274,7 @@ function ListHeader() {
 
 	      <View style={styles.commonRow}>
 	        <Text style={styles.textTripNo}>
-	          派单号: 12345678
+	          派单号: {order.id}
 	      	</Text>
 
 		      <Text style={styles.textStatus}>
@@ -282,7 +284,7 @@ function ListHeader() {
 
 				<View style={styles.commonRow}>
 	        <Text style={styles.textTripNo}>
-	          派单号: 12345678
+	          发车时间: {order.start_time}
 	      	</Text>
 	      </View>
 
@@ -334,7 +336,7 @@ class UserList extends Component{
 
 				<View style={styles.userDetailArea}>
 					<Text style={styles.textUserInfo}>
-						胡女士
+						{user.name}
 					</Text>
 
 					<TTButton iconName="ios-person"
@@ -369,21 +371,13 @@ class OrderPinContent extends Component {
   constructor(props) {
     super(props);
 
+		console.log(JSON.stringify(props.order.order_busices));
+
 		const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 	  this.state = {
-	    dataSource: ds.cloneWithRows([
-				{
-					userList: ['',],
-					msg: '我脚有点臭，给我个靠窗的位置。',
-				},
-				{
-					userList: ['',''],
-					msg: '师傅你迟到的话你死了!',
-				},
-				{
-					userList: ['','',''],
-				},
-			]),
+	    dataSource: ds.cloneWithRows(
+				props.order.order_busices
+			),
 	  };
 
   }
@@ -403,7 +397,7 @@ class OrderPinContent extends Component {
 	}
 
 	renderItem(order) {
-		var userCount = order.userList.length;
+		var userCount = order.order_bus_passengers.length;
 		var msgHeight = 0;
 		if (order.msg != null && order.msg.length > 0) {
 			msgHeight = 1;
@@ -413,7 +407,7 @@ class OrderPinContent extends Component {
 			<View style={[styles.cardBg, {height: CommonStyle.commonRowHeight * (3+msgHeight+userCount)}]}>
 				<View style={styles.commonRow}>
 					<Text style={styles.textTripNo}>
-						订单号: 12345678
+						订单号: {order.id}
 					</Text>
 
 					<Text style={styles.textPassagerCount}>
@@ -446,20 +440,20 @@ class OrderPinContent extends Component {
 
 	          <View style={styles.textAddressArea}>
 	            <Text style={styles.textAddressColor}>
-	              昆明市螺狮湾公交枢纽站
+	              {order.start_area}
 	            </Text>
 							<Text style={styles.textAddress}>
-	              昆明市螺狮湾公交枢纽站
+	              {order.start_place}
 	            </Text>
 	          </View>
 
 
 	          <View style={styles.textAddressArea}>
 	            <Text style={styles.textAddressColor}>
-	              昆明市螺狮湾公交枢纽站
+	              {order.end_area}
 	            </Text>
 							<Text style={styles.textAddress}>
-	              昆明市螺狮湾公交枢纽站
+	              {order.end_place}
 	            </Text>
 	          </View>
 
@@ -467,10 +461,10 @@ class OrderPinContent extends Component {
 	      </View>
 
 				<UserList
-					userList={order.userList}
+					userList={order.order_bus_passengers}
 				/>
 				{
-					this.renderMsgArea(msgHeight === 1, order.msg)
+					this.renderMsgArea(msgHeight === 1, order.remark)
 				}
    		</View>
 		);
@@ -479,7 +473,9 @@ class OrderPinContent extends Component {
   render() {
       return (
 				<View style={styles.content}>
-				<ListHeader />
+				<ListHeader
+					order={this.props.order}
+				/>
 				<ListView
 					dataSource={this.state.dataSource}
 					renderRow={(rowData) => this.renderItem(rowData)}

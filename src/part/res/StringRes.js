@@ -9,6 +9,14 @@ const StringRes = {
   today: '今天',
   tomorrow: '明天',
   future: '未来7天',
+  getOrderStatus: (code) => {
+    switch (code) {
+      case 'assigned':
+        return '派车成功';
+      default:
+        return '派车成功';
+    }
+  }
 };
 
 module.exports = StringRes;

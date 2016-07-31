@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     borderRadius: CommonStyle.iconSize / 2,
     height: CommonStyle.iconSize,
     width: CommonStyle.iconSize,
-    backgroundColor: CommonStyle.themeColorGreen,
+    backgroundColor: CommonStyle.themeColorRed,
   },
   dotLine: {
     borderStyle: 'dotted',
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
 
 });
 
-function ListHeader() {
+function ListHeader({order}) {
   return(
 		<View>
 
@@ -259,7 +259,9 @@ function ListHeader() {
 
 				<Text
 					style={styles.subTitle}
-				>昆明————大理</Text>
+				>
+				{order.batch_name}
+				</Text>
 
 				<View
 					style={styles.spaceTypeArea}
@@ -272,7 +274,7 @@ function ListHeader() {
 
 	      <View style={styles.commonRow}>
 	        <Text style={styles.textTripNo}>
-	          派单号: 12345678
+	          派单号: {order.id}
 	      	</Text>
 
 		      <Text style={styles.textStatus}>
@@ -282,7 +284,7 @@ function ListHeader() {
 
 				<View style={styles.commonRow}>
 	        <Text style={styles.textTripNo}>
-	          派单号: 12345678
+	          发车时间: {order.start_time}
 	      	</Text>
 	      </View>
 
@@ -311,24 +313,6 @@ function TTButton({onPress, text, iconName, color}) {
 class OrderBaoContent extends Component {
   constructor(props) {
     super(props);
-
-		const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-	  this.state = {
-	    dataSource: ds.cloneWithRows([
-				{
-					userList: ['',],
-					msg: '我脚有点臭，给我个靠窗的位置。',
-				},
-				{
-					userList: ['',''],
-					msg: '师傅你迟到的话你死了!',
-				},
-				{
-					userList: ['','',''],
-				},
-			]),
-	  };
-
   }
 
 	renderMsgArea(show, msg) {
@@ -346,25 +330,27 @@ class OrderBaoContent extends Component {
 	}
 
   render() {
-			let order = {
-				msg: '先森，可不可以讲粤语哦，我们都系香港人啦。',
-				userList: ['','',''],
-			};
-			
+			const order = this.props.order;
+
+			const user = {
+				user_name: order.order_busices[0].user_name,
+				user_phone: order.order_busices[0].user_phone,
+			}
+
 			let msgHeight = 0;
-			let userCount = order.userList.length;
-			if (order.msg != null && order.msg.length > 0) {
+			const userCount = order.order_busices[0].order_bus_passengers.length;
+			if (order.remark != null && order.remark.length > 0) {
 				msgHeight = 1;
 			}
 
       return (
 				<View style={styles.content}>
-				<ListHeader />
+				<ListHeader order={order} />
 
         <View style={[styles.cardBg, {height: CommonStyle.commonRowHeight * (4+msgHeight)}]}>
   				<View style={styles.commonRow}>
   					<Text style={styles.textTripNo}>
-  						订单号: 12345678
+  						订单号: {order.id}
   					</Text>
 
   					<Text style={styles.textPassagerCount}>
@@ -397,20 +383,20 @@ class OrderBaoContent extends Component {
 
   	          <View style={styles.textAddressArea}>
   	            <Text style={styles.textAddressColor}>
-  	              昆明市螺狮湾公交枢纽站
+  	              {order.order_busices[0].start_area}
   	            </Text>
   							<Text style={styles.textAddress}>
-  	              昆明市螺狮湾公交枢纽站
+  	              {order.order_busices[0].start_place}
   	            </Text>
   	          </View>
 
 
   	          <View style={styles.textAddressArea}>
   	            <Text style={styles.textAddressColor}>
-  	              昆明市螺狮湾公交枢纽站
+  	              {order.order_busices[0].end_area}
   	            </Text>
   							<Text style={styles.textAddress}>
-  	              昆明市螺狮湾公交枢纽站
+  	              {order.order_busices[0].end_place}
   	            </Text>
   	          </View>
 
@@ -428,7 +414,7 @@ class OrderBaoContent extends Component {
 
     				<View style={styles.userDetailArea}>
     					<Text style={styles.textUserInfo}>
-    						胡女士
+    						{user.user_name}
     					</Text>
 
     					<TTButton iconName="ios-person"
@@ -446,7 +432,7 @@ class OrderBaoContent extends Component {
 
     			</View>
   				{
-  					this.renderMsgArea(msgHeight === 1, order.msg)
+  					this.renderMsgArea(msgHeight === 1, order.remark)
   				}
      		</View>
 

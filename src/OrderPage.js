@@ -17,7 +17,7 @@ import TripList from './part/TripList';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(187,187,187)',
+    backgroundColor: CommonStyle.commonBg,
   },
 });
 
@@ -40,7 +40,9 @@ class OrderPage extends React.Component {
           navigator={this.props.navigator}
           isShowBackButton={false} />
 
-        <TripList navigator={this.props.navigator}/>
+        <TripList navigator={this.props.navigator}
+          loadingViewFunc={this.props.loadingViewFunc}
+        />
       </View>
     );
   }

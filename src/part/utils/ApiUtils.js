@@ -7,14 +7,18 @@ import Promise from 'ypromise';
 // import LoadingView from './LoadingView';
 
 const ApiUtils = {
+
+  BASE_URL: 'http://120.76.29.221:8080/staff/',    // 线上服务器
+  BASE_URL_WITH_OUT_TOKEN: 'http://120.76.29.221:8080/',
+  TOKEN_URL: 'http://120.76.29.221:8080/common/staff/token',
   // BASE_URL: 'http://tuyue.reemii.cn/staff/',
   //
   // BASE_URL_WITH_OUT_TOKEN: 'http://tuyue.reemii.cn',
   //
   // TOKEN_URL: 'http://tuyue.reemii.cn/common/staff/token',
-  BASE_URL: 'http://192.168.0.48:8080/staff/',
-  BASE_URL_WITH_OUT_TOKEN: 'http://192.168.0.48:8080/',
-  TOKEN_URL: 'http://192.168.0.48:8080/common/staff/token',
+  // BASE_URL: 'http://192.168.0.48:8080/staff/',
+  // BASE_URL_WITH_OUT_TOKEN: 'http://192.168.0.48:8080/',
+  // TOKEN_URL: 'http://192.168.0.48:8080/common/staff/token',
   // BASE_URL: 'http://192.168.1.114:8080/tuyue/staff/',
   //
   // BASE_URL_WITH_OUT_TOKEN: 'http://192.168.1.114:8080/tuyue/',
@@ -46,7 +50,10 @@ const ApiUtils = {
         },
         body: JSON.stringify(params),
       })
-      .then(r => r.json())
+      .then(
+        r =>
+        r.json()
+      )
       .then(json => {
         if (json.code === 0) {
           fulfill(json.data);

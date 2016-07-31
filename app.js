@@ -25,11 +25,11 @@ function RouteMapper(route, navigation) {
     );
   } else if (route.name === 'OrderPinDetailPage') {
     return (
-      <OrderPinDetailPage navigator={navigation} />
+      <OrderPinDetailPage {...route.params} navigator={navigation} />
     );
   } else if (route.name === 'OrderBaoDetailPage') {
     return (
-      <OrderBaoDetailPage navigator={navigation} />
+      <OrderBaoDetailPage {...route.params} navigator={navigation} />
     );
   } else if (route.name === 'MorePage') {
     return (

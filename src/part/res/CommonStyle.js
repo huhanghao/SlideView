@@ -1,7 +1,8 @@
 const CommonStyle = {
   themeColor: 'white',
   themeColorGreen: 'rgb(88, 156, 157)',
-  commonBg: '#f8f8f8',
+  themeColorRed: 'rgb(203, 187, 224)',
+  commonBg: '#e8e8e8',
   commonGray: '#f8f8f8',
   fontGray: 'gray',
   iconGray: '#f8f8f8',
@@ -20,6 +21,8 @@ const CommonStyle = {
   spinnerSize: 100,
   spinnerColor: '#589C9D',
   spinnerType: 'Pulse',
+  //
+  CellItemSelected: 'rgb(203, 187, 224)',
   // trip
   tripCellSelectedColor: 'red',
   // mine

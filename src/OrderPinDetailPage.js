@@ -43,6 +43,7 @@ class OrderPinDetailPage extends React.Component {
         <ScrollView style={ {flex: 1} }>
           <OrderPinContent
             navigator={this.props.navigator}
+            order={this.props.order}
           />
         </ScrollView>
         <SliderView />

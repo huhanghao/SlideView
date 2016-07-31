@@ -20,7 +20,7 @@ import TimeUtils from './part/utils/TimeUtils';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(187,187,187)',
+    backgroundColor: CommonStyle.commonBg,
   },
 });
 

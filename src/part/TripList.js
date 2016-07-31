@@ -13,6 +13,7 @@ import React, {
 } from 'react';
 
 import CommonStyle from './res/CommonStyle';
+import StringRes from './res/StringRes';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import ApiUtils from './utils/ApiUtils';
@@ -21,23 +22,26 @@ const styles = StyleSheet.create({
 	cardBg6x: {
 		backgroundColor: 'white',
 		height: CommonStyle.commonRowHeight * 6,
-    borderColor: CommonStyle.dividerGray,
     margin: CommonStyle.pageHorizontalMargin,
+		borderColor: CommonStyle.dividerGray,
     borderWidth: CommonStyle.borderWidth,
+		borderRadius: CommonStyle.commonRadius,
 	},
   cardBg: {
 		backgroundColor: 'white',
     height: CommonStyle.commonRowHeight * 5,
-    borderColor: CommonStyle.dividerGray,
     margin: CommonStyle.pageHorizontalMargin,
+		borderColor: CommonStyle.dividerGray,
     borderWidth: CommonStyle.borderWidth,
+		borderRadius: CommonStyle.commonRadius,
   },
   commonRow: {
     paddingLeft: CommonStyle.pageHorizontalMargin,
     flexDirection: 'row',
     height: CommonStyle.commonRowHeight,
-    borderBottomWidth: CommonStyle.borderWidth,
-    borderBottomColor: CommonStyle.dividerGray,
+		borderColor: CommonStyle.dividerGray,
+    borderWidth: CommonStyle.borderWidth,
+		borderRadius: CommonStyle.commonRadius,
   },
 	marginLeftRow: {
 		paddingLeft: CommonStyle.pageHorizontalMargin * 2 + CommonStyle.iconSize,
@@ -106,7 +110,7 @@ const styles = StyleSheet.create({
     borderRadius: CommonStyle.iconSize / 2,
     height: CommonStyle.iconSize,
     width: CommonStyle.iconSize,
-    backgroundColor: CommonStyle.themeColorGreen,
+    backgroundColor: CommonStyle.themeColorRed,
   },
 	userLeftIconArea: {
 		marginLeft: CommonStyle.pageHorizontalMargin,
@@ -163,16 +167,37 @@ const styles = StyleSheet.create({
 
 const TYPE_PIN = 0;
 
-function ListPinItem({onItemClick}) {
+function ListPinItem({navigator, order}) {
+
+	let orderCount = 1;
+	let userCount = 1;
+	if (order.order_busices == null) {
+
+	} else {
+			orderCount = order.order_busices.length;
+			userCount = order.order_busices.order_bus_passengers == null ? 1 : order.order_busices.order_bus_passengers.length;
+	}
+
+	const goToPinDetail = function() {
+		navigator.push(
+			{
+					name: 'OrderPinDetailPage',
+					params: {
+						order: order,
+					},
+			}
+		);
+	};
+
   return(
     <TouchableOpacity
 			style={styles.cardBg}
-			onPress={onItemClick}
+			onPress={goToPinDetail}
 		>
 
       <View style={styles.commonRow}>
         <Text style={styles.textStatus}>
-          进行中...
+          {StringRes.getOrderStatus(order.status)}
         </Text>
 
         <Text style={styles.textType}>
@@ -182,11 +207,11 @@ function ListPinItem({onItemClick}) {
 
       <View style={styles.commonRow}>
         <Text style={styles.textTripNo}>
-          派单号: 12345678
+          派单号: {order.id}
       </Text>
 
       <Text style={styles.textTripOrders}>
-        3个订单4位乘客
+        {orderCount}个订单{userCount}位乘客
       </Text>
       </View>
 
@@ -216,14 +241,14 @@ function ListPinItem({onItemClick}) {
 
           <View style={styles.textAddressArea}>
             <Text style={styles.textAddress}>
-              昆明市螺狮湾公交枢纽站
+              {order.start_area}
             </Text>
           </View>
 
 
           <View style={styles.textAddressArea}>
             <Text style={styles.textAddress}>
-              昆明市螺狮湾公交枢纽站
+              {order.end_area}
             </Text>
           </View>
 
@@ -232,7 +257,7 @@ function ListPinItem({onItemClick}) {
 
       <View style={styles.commonRow}>
         <Text style={styles.textSendingTime}>
-          发车时间: 2016-03-06 11:00:00
+          发车时间: {order.start_time}
         </Text>
       </View>
 
@@ -240,16 +265,37 @@ function ListPinItem({onItemClick}) {
   );
 };
 
-function ListBaoItem({onItemClick}) {
+function ListBaoItem({order, navigator}) {
+
+	let userCount = 1;
+	let user = {};
+	if (order.order_busices == null) {
+		userCount = 1;
+	} else {
+		userCount = order.order_busices.order_bus_passengers == null ? 1 : order.order_busices.order_bus_passengers.length;
+	}
+
+	const goToBaoDetail = function() {
+		navigator.push(
+			{
+					name: 'OrderBaoDetailPage',
+					params: {
+		        order: order,
+		      },
+			}
+		);
+	};
+
+
   return(
     <TouchableOpacity
 			style={styles.cardBg6x}
-			onPress={onItemClick}
+			onPress={goToBaoDetail}
 		>
 
       <View style={styles.commonRow}>
         <Text style={styles.textStatus}>
-          进行中...
+          {StringRes.getOrderStatus(order.status)}
         </Text>
 
         <Text style={styles.textType}>
@@ -259,11 +305,11 @@ function ListBaoItem({onItemClick}) {
 
       <View style={styles.commonRow}>
         <Text style={styles.textTripNo}>
-          派单号: 12345678
+          派单号: {order.id}
       </Text>
 
       <Text style={styles.textTripOrders}>
-        3个订单4位乘客
+        {userCount}位乘客
       </Text>
       </View>
 
@@ -293,14 +339,14 @@ function ListBaoItem({onItemClick}) {
 
           <View style={styles.textAddressArea}>
             <Text style={styles.textAddress}>
-              昆明市螺狮湾公交枢纽站
+              {order.order_busices.start_area}
             </Text>
           </View>
 
 
           <View style={styles.textAddressArea}>
             <Text style={styles.textAddress}>
-              昆明市螺狮湾公交枢纽站
+              {order.order_busices.end_area}
             </Text>
           </View>
 
@@ -309,7 +355,7 @@ function ListBaoItem({onItemClick}) {
 
       <View style={styles.marginLeftRow}>
         <Text style={styles.textSendingTime}>
-          发车时间: 2016-03-06 11:00:00
+          发车时间: {order.start_time}
         </Text>
       </View>
 
@@ -323,7 +369,7 @@ function ListBaoItem({onItemClick}) {
     		</View>
 
         <Text style={styles.textUserInfo}>
-          胡女士 182****3335
+          {order.order_busices[0].user_name} {order.order_busices[0].user_phone}
         </Text>
 
 				<View style={styles.userRightIconArea}>
@@ -357,8 +403,6 @@ class TripList extends Component {
 			end_time: props.end_time,
 	  };
 
-		this.goToBaoDetail = this.goToBaoDetail.bind(this);
-		this.goToPinDetail = this.goToPinDetail.bind(this);
 		this.renderItem = this.renderItem.bind(this);
 		this.loadDataFromServe = this.loadDataFromServe.bind(this);
 		this.reloadOrderList = this.reloadOrderList.bind(this);
@@ -402,18 +446,13 @@ class TripList extends Component {
 	// 	this.loadDataFromServe();
 	// }
 
-	goToBaoDetail() {
-		this.props.navigator.push(
-			{
-					name: 'OrderBaoDetailPage',
-			}
-		);
-	}
-
-	goToPinDetail() {
+	goToPinDetail(rowData) {
 		this.props.navigator.push(
 			{
 					name: 'OrderPinDetailPage',
+					params: {
+		        order: rowData,
+		      },
 			}
 		);
 	}
@@ -462,6 +501,11 @@ class TripList extends Component {
 				let hasMore = true;
 				if (data != null && data.length < this.state.pageSize) {
 					hasMore = false;
+				}
+
+				if (data == null) {
+					alert('数据已加载完');
+					return;
 				}
 
 				console.log('success, page = ' + this.state.page + ' data.size = ' + data.length);
@@ -513,12 +557,16 @@ class TripList extends Component {
 		if (rowData.type != TYPE_PIN) {
 			return (
 				<ListBaoItem
-					onItemClick={this.goToBaoDetail}/>
+					navigator={this.props.navigator}
+					order={rowData}
+				/>
 			);
 		} else {
 			return (
 				<ListPinItem
-					onItemClick={this.goToPinDetail}/>
+					navigator={this.props.navigator}
+					order={rowData}
+				/>
 			);
 		}
 	}

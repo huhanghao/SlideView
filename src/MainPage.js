@@ -28,6 +28,13 @@ const ScreenHeight = window.height;
 const ScreenWidth = window.width;
 const spinnerSize = CommonStyle.spinnerSize;
 
+const tab1Normal = require('./part/img/tab_1_normal.png');
+const tab1Selected = require('./part/img/tab_1_selected.png');
+const tab2Normal = require('./part/img/tab_2_normal.png');
+const tab2Selected = require('./part/img/tab_2_selected.png');
+const tab3Normal = require('./part/img/tab_3_normal.png');
+const tab3Selected = require('./part/img/tab_3_selected.png');
+
 const styles = StyleSheet.create({
   content: {
     flex: 1,
@@ -44,14 +51,12 @@ class MainPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tab1Normal: null,
-      tab1Selected: null,
-      tab2Normal: null,
-      tab2Selected: null,
-      tab3Normal: null,
-      tab3Selected: null,
-      tab4Normal: null,
-      tab4Selected: null,
+      tab1Normal,
+      tab1Selected,
+      tab2Normal,
+      tab2Selected,
+      tab3Normal,
+      tab3Selected,
       isLoading: true,
     };
 
@@ -59,29 +64,29 @@ class MainPage extends Component {
   }
 
   componentWillMount() {
-    Icon.getImageSource('textsms', CommonStyle.iconSizeSmall, CommonStyle.themeColorGreen)
-      .then((source) => this.setState({ tab1Selected: source }));
-
-    Icon.getImageSource('textsms', CommonStyle.iconSizeSmall, CommonStyle.iconGray)
-      .then((source) => this.setState({ tab1Normal: source }));
-
-    Icon.getImageSource('ios-phone-portrait', CommonStyle.iconSizeSmall, CommonStyle.themeColorGreen)
-      .then((source) => this.setState({ tab2Selected: source }));
-
-    Icon.getImageSource('ios-phone-portrait', CommonStyle.iconSizeSmall, CommonStyle.iconGray)
-      .then((source) => this.setState({ tab2Normal: source }));
-
-    Icon.getImageSource('ios-phone-portrait', CommonStyle.iconSizeSmall, CommonStyle.themeColorGreen)
-      .then((source) => this.setState({ tab3Selected: source }));
-
-    Icon.getImageSource('ios-phone-portrait', CommonStyle.iconSizeSmall, CommonStyle.iconGray)
-      .then((source) => this.setState({ tab3Normal: source }));
-
-    Icon.getImageSource('ios-phone-portrait', CommonStyle.iconSizeSmall, CommonStyle.themeColorGreen)
-      .then((source) => this.setState({ tab4Selected: source }));
-
-    Icon.getImageSource('ios-phone-portrait', CommonStyle.iconSizeSmall, CommonStyle.iconGray)
-        .then((source) => this.setState({ tab4Normal: source }));
+    // Icon.getImageSource('textsms', CommonStyle.iconSizeSmall, CommonStyle.themeColorGreen)
+    //   .then((source) => this.setState({ tab1Selected: source }));
+    //
+    // Icon.getImageSource('textsms', CommonStyle.iconSizeSmall, CommonStyle.iconGray)
+    //   .then((source) => this.setState({ tab1Normal: source }));
+    //
+    // Icon.getImageSource('ios-phone-portrait', CommonStyle.iconSizeSmall, CommonStyle.themeColorGreen)
+    //   .then((source) => this.setState({ tab2Selected: source }));
+    //
+    // Icon.getImageSource('ios-phone-portrait', CommonStyle.iconSizeSmall, CommonStyle.iconGray)
+    //   .then((source) => this.setState({ tab2Normal: source }));
+    //
+    // Icon.getImageSource('ios-phone-portrait', CommonStyle.iconSizeSmall, CommonStyle.themeColorGreen)
+    //   .then((source) => this.setState({ tab3Selected: source }));
+    //
+    // Icon.getImageSource('ios-phone-portrait', CommonStyle.iconSizeSmall, CommonStyle.iconGray)
+    //   .then((source) => this.setState({ tab3Normal: source }));
+    //
+    // Icon.getImageSource('ios-phone-portrait', CommonStyle.iconSizeSmall, CommonStyle.themeColorGreen)
+    //   .then((source) => this.setState({ tab4Selected: source }));
+    //
+    // Icon.getImageSource('ios-phone-portrait', CommonStyle.iconSizeSmall, CommonStyle.iconGray)
+    //     .then((source) => this.setState({ tab4Normal: source }));
   }
 
   componentDidMount() {
@@ -133,8 +138,8 @@ class MainPage extends Component {
           </TabBar.Item>*/}
 
           <TabBar.Item
-            icon={this.state.tab4Normal}
-            selectedIcon={this.state.tab4Selected}
+            icon={this.state.tab3Normal}
+            selectedIcon={this.state.tab3Selected}
             title={'我'}
           >
             <MinePage navigator={this.props.navigator} />
