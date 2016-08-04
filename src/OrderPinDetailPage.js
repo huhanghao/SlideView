@@ -5,6 +5,7 @@ import {
   BackAndroid,
   Text,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 
 import React,{
@@ -71,6 +72,7 @@ class OrderPinDetailPage extends React.Component {
      backEventListener,
      order: props.order,
      slederEventListener,
+     isRefreshing: false,
    }
 
    this.busGo = this.busGo.bind(this);
@@ -90,7 +92,7 @@ class OrderPinDetailPage extends React.Component {
         this.refresh();
       },
       failed: (msg) => {
-        alert('老司机发车失败 ' + msg);
+        alert('发车失败 ' + msg);
       }
     };
 
@@ -98,7 +100,7 @@ class OrderPinDetailPage extends React.Component {
       id: this.state.order.id,
     };
 
-    alert(JSON.stringify(params));
+    // alert(JSON.stringify(params));
 
     ApiUtils.postRequest({funcName: 'busline/batch/start', params, callback});
   }
@@ -108,12 +110,19 @@ class OrderPinDetailPage extends React.Component {
       success: (data) => {
         this.setState(
           {
+            isRefreshing: false,
             order: data,
-          }
+          },
         );
+        // alert(JSON.stringify(data));
       },
       failed: (msg) => {
-        // alert('refresh failed ' + msg);
+        alert('refresh failed ' + msg);
+        this.setState(
+          {
+            isRefreshing: false,
+          }
+        );
       }
     };
 
@@ -121,12 +130,13 @@ class OrderPinDetailPage extends React.Component {
       id: this.state.order.id,
     }
 
-    alert('refresh params ' + JSON.stringify(params));
+    // alert('refresh params ' + JSON.stringify(params));
 
-    ApiUtils.postRequest({funcName: 'busline/order/info/piece', params, callback});
+    ApiUtils.postRequest({funcName: 'busline/batch/info', params, callback});
   }
 
   renderBottomArea() {
+    // alert(this.state.order.status);
     if (this.state.order.status === 'assigned') {
       return (
         <SliderView eventListener={this.state.slederEventListener} />
@@ -151,7 +161,14 @@ class OrderPinDetailPage extends React.Component {
           navigationTitle={StringRes.pinCar}
           navigator={this.props.navigator}
           isShowBackButton={true} />
-        <ScrollView style={ {flex: 1} }>
+        <ScrollView style={ {flex: 1} }
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.isRefreshing}
+              onRefresh={this.refresh}
+            />
+          }
+        >
           <OrderPinContent
             navigator={this.props.navigator}
             order={this.state.order}

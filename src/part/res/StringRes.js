@@ -14,7 +14,9 @@ const StringRes = {
       case 'assigned':
         return '派车成功';
       case 'start':
-        return '老司机已发车';
+        return '已发车';
+      case 'arrived':
+        return '已到达';
       default:
         return '派车成功';
     }

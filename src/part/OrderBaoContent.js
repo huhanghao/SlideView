@@ -12,6 +12,7 @@ import React, {
 } from 'react';
 
 import CommonStyle from './res/CommonStyle';
+import StringRes from './res/StringRes';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -278,7 +279,7 @@ function ListHeader({order}) {
 	      	</Text>
 
 		      <Text style={styles.textStatus}>
-		        等待出发
+		        {StringRes.getOrderStatus(order.status)}
 		    	</Text>
 	      </View>
 

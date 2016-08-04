@@ -12,6 +12,8 @@ import React, {
 } from 'react';
 
 import CommonStyle from './res/CommonStyle';
+import StringRes from './res/StringRes';
+import Communications from 'react-native-communications';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -278,7 +280,7 @@ function ListHeader({order}) {
 	      	</Text>
 
 		      <Text style={styles.textStatus}>
-		        等待出发
+		        {StringRes.getOrderStatus(order.status)}
 		    	</Text>
 	      </View>
 
@@ -294,22 +296,34 @@ function ListHeader({order}) {
   );
 };
 
-function TTButton({onPress, text, iconName, color}) {
-	return(
-		<TouchableOpacity
-			style={styles.buttonArea}
-			onPress={onPress}
-		>
-			<Icon
-				style={styles.buttonIcon}
-				name={iconName}
-				size={CommonStyle.iconSizeSmall}
-				color={color} />
-			<Text style={[styles.buttonText, {color: color}]}>{text}</Text>
-  	</TouchableOpacity>
-	);
-};
+class TTButton extends Component {
 
+	constructor(props) {
+    super(props);
+
+		this.onItemClick = this.onItemClick.bind(this);
+	}
+
+	onItemClick() {
+		this.props.onPress && this.props.onPress(this.props.data);
+	}
+
+	render() {
+		return(
+			<TouchableOpacity
+				style={styles.buttonArea}
+				onPress={this.onItemClick}
+			>
+				<Icon
+					style={styles.buttonIcon}
+					name={this.props.iconName}
+					size={CommonStyle.iconSizeSmall}
+					color={this.props.color} />
+				<Text style={[styles.buttonText, {color: this.props.color}]}>{this.props.text}</Text>
+	  	</TouchableOpacity>
+		);
+	}
+}
 
 class UserList extends Component{
 
@@ -318,25 +332,41 @@ class UserList extends Component{
 
 		const userList = props.data.order_bus_passengers;
 
-		const show = props.data.status !== 'assigned';
+		let buttonTextPick = '';
+		if (props.data.status === 'assigned') {
+			buttonTextPick = '接到乘客';
+		} else {
+			buttonTextPick = '乘客到达';
+		}
+
+		alert(props.orderStatus);
+
+		const buttonShow = props.orderStatus === 'start';
 
 		const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 	  this.state = {
 	    dataSource: ds.cloneWithRows(userList),
-			show
+			buttonShow,
+			buttonTextPick,
 	  };
 
 		this.renderButton = this.renderButton.bind(this);
 	}
 
-	renderButton() {
-		if (this.state.show) {
+	onCallPressed(phone) {
+		Communications.phonecall(phone, true);
+	}
+
+	renderButton(user) {
+		if (this.state.buttonShow) {
 			return (
 				<View style={{ flexDirection: 'row' }}
 				>
 					<TTButton iconName="ios-person"
 						text="联系乘客"
 						color={CommonStyle.themeColorGreen}
+						onPress={this.onCallPressed}
+						data={user.phone}
 					/>
 
 					<TTButton iconName="ios-person"
@@ -367,7 +397,7 @@ class UserList extends Component{
 					</Text>
 
 					{
-						this.renderButton()
+						this.renderButton(user)
 					}
 
     		</View>
@@ -391,7 +421,7 @@ class OrderPinContent extends Component {
   constructor(props) {
     super(props);
 
-		console.log(JSON.stringify(props.order.order_busices));
+		console.log(JSON.stringify(props.order));
 
 		const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 	  this.state = {
@@ -400,6 +430,7 @@ class OrderPinContent extends Component {
 			),
 	  };
 
+		this.renderItem = this.renderItem.bind(this);
   }
 
 	renderMsgArea(show, msg) {
@@ -482,6 +513,7 @@ class OrderPinContent extends Component {
 
 				<UserList
 					data={order}
+					orderStatus={this.props.order.status}
 				/>
 				{
 					this.renderMsgArea(msgHeight === 1, order.remark)

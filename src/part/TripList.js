@@ -277,7 +277,7 @@ function ListBaoItem({order, navigator}) {
 
 	let userCount = 1;
 	let user = {};
-	if (order.order_busices == null) {
+	if (order.order_busices == null && order.order_busices[0] == null) {
 		userCount = 1;
 	} else {
 		userCount = order.order_busices[0].order_bus_passengers == null ? 1 : order.order_busices[0].order_bus_passengers.length;
@@ -347,14 +347,14 @@ function ListBaoItem({order, navigator}) {
 
           <View style={styles.textAddressArea}>
             <Text style={styles.textAddress}>
-              {order.order_busices[0].start_area}
+              {order.start_area}
             </Text>
           </View>
 
 
           <View style={styles.textAddressArea}>
             <Text style={styles.textAddress}>
-              {order.order_busices[0].end_area}
+              {order.end_area}
             </Text>
           </View>
 
