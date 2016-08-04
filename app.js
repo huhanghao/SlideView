@@ -6,6 +6,7 @@ import {
 
 import LoginPage from './src/LoginPage';
 import MainPage from './src/MainPage';
+import MorePage from './src/MorePage';
 import OrderPinDetailPage from './src/OrderPinDetailPage';
 import OrderBaoDetailPage from './src/OrderBaoDetailPage'
 import MineRatingPage from './src/MineRatingPage'

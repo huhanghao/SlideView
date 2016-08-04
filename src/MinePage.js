@@ -117,7 +117,7 @@ class MinePage extends React.Component {
               <Image source={avatar} style={styles.avatar} />
             </View>
             <Text>
-              西周把把
+              测试用户
             </Text>
 
             {/*<RightArrow />*/}

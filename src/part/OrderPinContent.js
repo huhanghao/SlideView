@@ -316,11 +316,38 @@ class UserList extends Component{
 	constructor(props) {
     super(props);
 
+		const userList = props.data.order_bus_passengers;
+
+		const show = props.data.status !== 'assigned';
+
 		const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 	  this.state = {
-	    dataSource: ds.cloneWithRows(props.userList),
+	    dataSource: ds.cloneWithRows(userList),
+			show
 	  };
 
+		this.renderButton = this.renderButton.bind(this);
+	}
+
+	renderButton() {
+		if (this.state.show) {
+			return (
+				<View style={{ flexDirection: 'row' }}
+				>
+					<TTButton iconName="ios-person"
+						text="联系乘客"
+						color={CommonStyle.themeColorGreen}
+					/>
+
+					<TTButton iconName="ios-person"
+						text="接到乘客"
+						color={CommonStyle.themeColorGreen}
+					/>
+	   		</View>
+			);
+		} else {
+			return null;
+		}
 	}
 
 	renderItem(user) {
@@ -339,16 +366,9 @@ class UserList extends Component{
 						{user.name}
 					</Text>
 
-					<TTButton iconName="ios-person"
-					 	text="联系乘客"
-						color={CommonStyle.themeColorGreen}
-					/>
-
-					<TTButton iconName="ios-person"
-					 	text="接到乘客"
-						color={CommonStyle.themeColorGreen}
-					/>
-
+					{
+						this.renderButton()
+					}
 
     		</View>
 
@@ -461,7 +481,7 @@ class OrderPinContent extends Component {
 	      </View>
 
 				<UserList
-					userList={order.order_bus_passengers}
+					data={order}
 				/>
 				{
 					this.renderMsgArea(msgHeight === 1, order.remark)

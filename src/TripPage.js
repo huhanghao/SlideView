@@ -79,7 +79,7 @@ class TripPage extends React.Component {
           />
         <TripList
           navigator={this.props.navigator}
-          status={'assigned'}
+          // status={'assigned'}
           start_time={TimeUtils.getTime(this.state.startDay, true)}
           end_time={TimeUtils.getTime(this.state.endDay, false)}
           loadingViewFunc={this.props.loadingViewFunc}

@@ -13,6 +13,8 @@ const StringRes = {
     switch (code) {
       case 'assigned':
         return '派车成功';
+      case 'start':
+        return '老司机已发车';
       default:
         return '派车成功';
     }

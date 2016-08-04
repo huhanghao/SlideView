@@ -2,6 +2,7 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  BackAndroid,
 } from 'react-native';
 
 import React,{
@@ -30,6 +31,20 @@ class OrderBaoDetailPage extends React.Component {
 
   constructor() {
     super();
+    const backEventListener = () => {
+      this.props.navigator.pop();
+      return true;
+    };
+    this.state = {
+     backEventListener,
+   }
+  }
+
+  componentDidMount() {
+    BackAndroid.addEventListener('hardwareBackPress', this.state.backEventListener);
+  }
+  componentWillUnmount() {
+    BackAndroid.removeEventListener('hardwareBackPress', this.state.backEventListener);
   }
 
   render() {

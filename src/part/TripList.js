@@ -175,7 +175,15 @@ function ListPinItem({navigator, order}) {
 
 	} else {
 			orderCount = order.order_busices.length;
-			userCount = order.order_busices.order_bus_passengers == null ? 1 : order.order_busices.order_bus_passengers.length;
+			userCount = 0;
+
+			const orderList = order.order_busices;
+			const size = orderList.length;
+			let pos = 0;
+
+			for(; pos <size; pos++) {
+					userCount += orderList[pos].order_bus_passengers.length;
+			}
 	}
 
 	const goToPinDetail = function() {
@@ -272,7 +280,7 @@ function ListBaoItem({order, navigator}) {
 	if (order.order_busices == null) {
 		userCount = 1;
 	} else {
-		userCount = order.order_busices.order_bus_passengers == null ? 1 : order.order_busices.order_bus_passengers.length;
+		userCount = order.order_busices[0].order_bus_passengers == null ? 1 : order.order_busices[0].order_bus_passengers.length;
 	}
 
 	const goToBaoDetail = function() {
@@ -339,14 +347,14 @@ function ListBaoItem({order, navigator}) {
 
           <View style={styles.textAddressArea}>
             <Text style={styles.textAddress}>
-              {order.order_busices.start_area}
+              {order.order_busices[0].start_area}
             </Text>
           </View>
 
 
           <View style={styles.textAddressArea}>
             <Text style={styles.textAddress}>
-              {order.order_busices.end_area}
+              {order.order_busices[0].end_area}
             </Text>
           </View>
 
