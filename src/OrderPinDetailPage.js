@@ -77,6 +77,7 @@ class OrderPinDetailPage extends React.Component {
 
    this.busGo = this.busGo.bind(this);
    this.refresh = this.refresh.bind(this);
+   this.renderContent = this.renderContent.bind(this);
  }
 
   componentDidMount() {
@@ -135,6 +136,16 @@ class OrderPinDetailPage extends React.Component {
     ApiUtils.postRequest({funcName: 'busline/batch/info', params, callback});
   }
 
+  renderContent() {
+    return(
+      <OrderPinContent
+        navigator={this.props.navigator}
+        order={this.state.order}
+        onRefresh={this.refresh}
+      />
+    );
+  }
+
   renderBottomArea() {
     // alert(this.state.order.status);
     if (this.state.order.status === 'assigned') {
@@ -169,12 +180,14 @@ class OrderPinDetailPage extends React.Component {
             />
           }
         >
-          <OrderPinContent
-            navigator={this.props.navigator}
-            order={this.state.order}
-          />
+          {
+            this.renderContent()
+          }
+
         </ScrollView>
-        { this.renderBottomArea() }
+        {
+          this.renderBottomArea()
+        }
       </View>
     );
   }

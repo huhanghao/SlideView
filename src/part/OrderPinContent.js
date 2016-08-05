@@ -14,6 +14,7 @@ import React, {
 import CommonStyle from './res/CommonStyle';
 import StringRes from './res/StringRes';
 import Communications from 'react-native-communications';
+import ApiUtils from './utils/ApiUtils';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -339,7 +340,7 @@ class UserList extends Component{
 			buttonTextPick = '乘客到达';
 		}
 
-		alert(props.orderStatus);
+		// alert(props.orderStatus);
 
 		const buttonShow = props.orderStatus === 'start';
 
@@ -348,13 +349,43 @@ class UserList extends Component{
 	    dataSource: ds.cloneWithRows(userList),
 			buttonShow,
 			buttonTextPick,
+			ds,
 	  };
 
 		this.renderButton = this.renderButton.bind(this);
+		this.onButtonPickArriveClick = this.onButtonPickArriveClick.bind(this);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.data != null) {
+
+			let buttonTextPick = '';
+			if (nextProps.data.status === 'assigned') {
+				buttonTextPick = '接到乘客';
+			} else {
+				buttonTextPick = '乘客到达';
+			}
+
+			// alert(props.orderStatus);
+
+			const buttonShow = nextProps.orderStatus === 'start';
+
+			this.setState({
+				dataSource: this.state.ds.cloneWithRows(
+					nextProps.data.order_bus_passengers,
+				),
+				buttonShow,
+				buttonTextPick,
+			});
+		};
 	}
 
 	onCallPressed(phone) {
 		Communications.phonecall(phone, true);
+	}
+
+	onButtonPickArriveClick(order) {
+		this.props.onPickArriveClick && this.props.onPickArriveClick(order.id, order.status);
 	}
 
 	renderButton(user) {
@@ -370,8 +401,10 @@ class UserList extends Component{
 					/>
 
 					<TTButton iconName="ios-person"
-						text="接到乘客"
+						text={this.state.buttonTextPick}
 						color={CommonStyle.themeColorGreen}
+						onPress={this.onButtonPickArriveClick}
+						data={this.props.data}
 					/>
 	   		</View>
 			);
@@ -421,17 +454,107 @@ class OrderPinContent extends Component {
   constructor(props) {
     super(props);
 
-		console.log(JSON.stringify(props.order));
-
 		const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 	  this.state = {
 	    dataSource: ds.cloneWithRows(
 				props.order.order_busices
 			),
+			order: props.order,
+			isRefreshing: false,
+			ds,
 	  };
 
 		this.renderItem = this.renderItem.bind(this);
+		this.onPickArriveClick = this.onPickArriveClick.bind(this);
+		this.apiPick = this.apiPick.bind(this);
+		this.apiArrived = this.apiArrived.bind(this);
+		this.onRefresh = this.onRefresh.bind(this);
   }
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.order != null) {
+			this.setState({
+				dataSource: this.state.ds.cloneWithRows(
+					nextProps.order.order_busices
+				),
+				order: nextProps.order,
+			});
+		};
+	}
+
+	// shouldComponentUpdate(nextProps, nextState) {
+	// }
+
+	onPickArriveClick(subOrderId, subOrderStatus) {
+		if (subOrderStatus === 'assigned') {
+			this.apiPick(subOrderId);
+		} else {
+			this.apiArrived(subOrderId);
+		}
+	}
+
+	apiPick(subOrderId) {
+		const callback = {
+			success: (data) => {
+				this.setState(
+					{
+						isRefreshing: false,
+						order: data,
+					},
+				);
+				// alert(JSON.stringify(data));
+				this.onRefresh();
+			},
+			failed: (msg) => {
+				alert('apiPick failed ' + msg);
+				this.setState(
+					{
+						isRefreshing: false,
+					}
+				);
+			}
+		};
+
+		const params = {
+			bus_line_batch_id: this.state.order.id,
+			order_bus_id: subOrderId,
+		}
+
+		ApiUtils.postRequest({funcName: 'busline/order/catched/piece', params, callback});
+	}
+
+	apiArrived(subOrderId) {
+		const callback = {
+			success: (data) => {
+				this.setState(
+					{
+						isRefreshing: false,
+					},
+				);
+				this.onRefresh();
+				// alert(JSON.stringify(data));
+			},
+			failed: (msg) => {
+				alert('apiArrived failed ' + msg);
+				this.setState(
+					{
+						isRefreshing: false,
+					}
+				);
+			}
+		};
+
+		const params = {
+			bus_line_batch_id: this.state.order.id,
+			order_bus_id: subOrderId,
+		}
+
+		ApiUtils.postRequest({funcName: 'busline/order/arrived/piece', params, callback});
+	}
+
+	onRefresh() {
+		this.props.onRefresh();
+	}
 
 	renderMsgArea(show, msg) {
 		if (show) {
@@ -513,7 +636,8 @@ class OrderPinContent extends Component {
 
 				<UserList
 					data={order}
-					orderStatus={this.props.order.status}
+					orderStatus={this.state.order.status}
+					onPickArriveClick={this.onPickArriveClick}
 				/>
 				{
 					this.renderMsgArea(msgHeight === 1, order.remark)
@@ -526,7 +650,7 @@ class OrderPinContent extends Component {
       return (
 				<View style={styles.content}>
 				<ListHeader
-					order={this.props.order}
+					order={this.state.order}
 				/>
 				<ListView
 					dataSource={this.state.dataSource}

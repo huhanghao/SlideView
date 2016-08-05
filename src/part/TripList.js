@@ -482,7 +482,7 @@ class TripList extends Component {
 			end_time = this.props.end_time;
 		}
 
-    this.loadDataFromServe(start_time, end_time);
+    this.loadDataFromServe(start_time, end_time, 1);
   }
 
   loadMoreOrderList() {
@@ -498,7 +498,7 @@ class TripList extends Component {
     }
   }
 
-	loadDataFromServe(start_time, end_time) {
+	loadDataFromServe(start_time, end_time, page) {
 
 		const callback = {
 			success: data => {
@@ -512,8 +512,7 @@ class TripList extends Component {
 				}
 
 				if (data == null) {
-					alert('数据已加载完');
-					return;
+					data = [];
 				}
 
 				console.log('success, page = ' + this.state.page + ' data.size = ' + data.length);
@@ -548,17 +547,25 @@ class TripList extends Component {
 			this.props.loadingViewFunc(true);
 		}
 
-		console.log('start_time = ' + start_time);
-		console.log('end_time = ' + end_time);
+		let requestPage = 0;
+		if (page != null) {
+			requestPage = page;
+		} else {
+			requestPage = this.state.page;
+		}
 
-		ApiUtils.postRequest({funcName: 'busline/batch/list',
-			params: {
-				start_time: start_time,
-				end_time: end_time,
-				status: this.props.status,
-				page_num: this.state.page,
-				page_size: this.state.pageSize,
-			}, callback});
+		const params = {
+			start_time: start_time,
+			end_time: end_time,
+			status: this.props.status,
+			page_num: requestPage,
+			page_size: this.state.pageSize,
+		};
+
+		console.log('post params = ' + JSON.stringify(params));
+
+		ApiUtils.postRequest({funcName: 'busline/batch/list', params
+			, callback});
 	}
 
 	renderItem(rowData) {
