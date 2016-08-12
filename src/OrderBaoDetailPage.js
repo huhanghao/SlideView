@@ -25,6 +25,27 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: CommonStyle.commonBg,
   },
+  arriveArea: {
+    height: 60 + CommonStyle.pageHorizontalMargin,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: CommonStyle.commonGray,
+  },
+  arriveButtonArea: {
+    width: 150,
+    height: 50,
+    marginLeft: 30,
+    marginRight: 30,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  arriveButton: {
+    fontSize: CommonStyle.mediumFont,
+    color: CommonStyle.themeColorRed,
+  },
 });
 
 const OrderBaoDetailPageTypes = {
@@ -39,13 +60,22 @@ class OrderBaoDetailPage extends React.Component {
       this.props.navigator.pop();
       return true;
     };
+
+    const slederEventListener = {
+      onIconAttachRight: () => {
+        this.busGo();
+      },
+    }
+
     this.state = {
      order: props.order,
      backEventListener,
+     slederEventListener,
      isRefreshing: false,
    }
 
    this.refresh = this.refresh.bind(this);
+   this.batchArrived = this.batchArrived.bind(this);
   }
 
   componentDidMount() {
@@ -53,6 +83,26 @@ class OrderBaoDetailPage extends React.Component {
   }
   componentWillUnmount() {
     BackAndroid.removeEventListener('hardwareBackPress', this.state.backEventListener);
+  }
+
+  busGo() {
+    const callback = {
+      success: (data) => {
+        alert('已发车');
+        this.refresh();
+      },
+      failed: (msg) => {
+        alert('发车失败 ' + msg);
+      }
+    };
+
+    const params = {
+      id: this.state.order.id,
+    };
+
+    // alert(JSON.stringify(params));
+
+    ApiUtils.postRequest({funcName: 'busline/batch/start', params, callback});
   }
 
   refresh() {
@@ -85,6 +135,26 @@ class OrderBaoDetailPage extends React.Component {
     ApiUtils.postRequest({funcName: 'busline/batch/info', params, callback});
   }
 
+  batchArrived() {
+    const callback = {
+      success: (data) => {
+        alert('到达目的地');
+        this.refresh();
+      },
+      failed: (msg) => {
+        alert('发车失败 ' + msg);
+      }
+    };
+
+    const params = {
+      id: this.state.order.id,
+    };
+
+    // alert(JSON.stringify(params));
+
+    ApiUtils.postRequest({funcName: 'busline/batch/arrived', params, callback});
+  }
+
   renderBottomArea() {
     if (this.state.order.status === 'assigned') {
       return (
@@ -93,7 +163,9 @@ class OrderBaoDetailPage extends React.Component {
     } else if (this.state.order.status === 'start'){
       return (
         <View style={styles.arriveArea}>
-          <TouchableOpacity style={styles.arriveButtonArea}>
+          <TouchableOpacity style={styles.arriveButtonArea}
+            onPress={this.batchArrived}
+          >
             <Text style={styles.arriveButton}>班线到达</Text>
           </TouchableOpacity>
         </View>
@@ -120,6 +192,7 @@ class OrderBaoDetailPage extends React.Component {
           <OrderBaoContent
             navigator={this.props.navigator}
             order={this.state.order}
+            onRefresh={this.refresh}
           />
         </ScrollView>
         { this.renderBottomArea() }

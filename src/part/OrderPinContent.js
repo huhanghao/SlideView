@@ -15,7 +15,6 @@ import CommonStyle from './res/CommonStyle';
 import StringRes from './res/StringRes';
 import Communications from 'react-native-communications';
 import ApiUtils from './utils/ApiUtils';
-
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const styles = StyleSheet.create({
@@ -336,13 +335,18 @@ class UserList extends Component{
 		let buttonTextPick = '';
 		if (props.data.status === 'assigned') {
 			buttonTextPick = '接到乘客';
-		} else {
+		} else if(props.data.status === 'trip'){
 			buttonTextPick = '乘客到达';
+		} else {
+			buttonTextPick = '';
 		}
 
 		// alert(props.orderStatus);
 
-		const buttonShow = props.orderStatus === 'start';
+		let buttonShow = false;
+		if (props.orderStatus === 'start' && buttonTextPick != '') {
+			buttonShow = true;
+		}
 
 		const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 	  this.state = {
@@ -362,13 +366,19 @@ class UserList extends Component{
 			let buttonTextPick = '';
 			if (nextProps.data.status === 'assigned') {
 				buttonTextPick = '接到乘客';
-			} else {
+			} else if(nextProps.data.status === 'trip'){
 				buttonTextPick = '乘客到达';
+			} else {
+				buttonTextPick = '';
 			}
 
 			// alert(props.orderStatus);
 
-			const buttonShow = nextProps.orderStatus === 'start';
+			let buttonShow = false;
+			if (nextProps.orderStatus === 'start' && buttonTextPick != '') {
+				buttonShow = true;
+			}
+
 
 			this.setState({
 				dataSource: this.state.ds.cloneWithRows(

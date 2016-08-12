@@ -108,7 +108,7 @@ class MinePage extends React.Component {
     return (
       <View style={styles.container}>
         <TitleBar
-          navigationTitle={StringRes.trip}
+          navigationTitle={'我的'}
           navigator={this.props.navigator}
           isShowBackButton={false} />
 
@@ -123,10 +123,10 @@ class MinePage extends React.Component {
             {/*<RightArrow />*/}
           </View>
 
-          <FuncItem icon={'ios-home'} text={'车队信息'} />
+          {/* <FuncItem icon={'ios-home'} text={'车队信息'} />
           <FuncItem icon={'ios-home'} text={'车辆信息'} />
           <FuncItem icon={'ios-home'} text={'评价'} />
-          <FuncItem icon={'ios-home'} text={'更多'} onClick={this.goToMorePage}/>
+          <FuncItem icon={'ios-home'} text={'更多'} onClick={this.goToMorePage}/> */}
 
       </View>
     );

@@ -14,6 +14,7 @@ import React, {
 
 import CommonStyle from './res/CommonStyle';
 import StringRes from './res/StringRes';
+import Communications from 'react-native-communications';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import ApiUtils from './utils/ApiUtils';
@@ -380,12 +381,18 @@ function ListBaoItem({order, navigator}) {
           {order.order_busices[0].user_name} {order.order_busices[0].user_phone}
         </Text>
 
-				<View style={styles.userRightIconArea}>
+				<TouchableOpacity style={styles.userRightIconArea}
+					onPress={() => {
+							Communications.phonecall(order.order_busices[0].user_phone, true);;
+						}
+					}
+
+				>
 					<Icon
 						name='ios-call'
 						size={CommonStyle.iconSize}>
 					</Icon>
-				</View>
+				</TouchableOpacity>
 
       </View>
 
@@ -423,7 +430,9 @@ class TripList extends Component {
 
 	componentWillReceiveProps(nextProps) {
 			console.log('componentWillReceiveProps nextProps = ' + nextProps.start_time + ' this.props = ' + this.props.start_time);
+			console.log('componentWillReceiveProps nextProps = ' + nextProps.end_time + ' this.props = ' + this.props.end_time);
 			let startTimeEqual = nextProps.start_time === this.props.start_time;
+			let endTimeEqual = nextProps.end_time === this.props.end_time;
 			//
 			// // three step
 			// // 1. when different, save next time flagTime
@@ -432,7 +441,7 @@ class TripList extends Component {
 			// if (flagTime === this.props.start_time) {
 			// 	this.reloadOrderList();
 			// }
-			if (!startTimeEqual) {
+			if (!startTimeEqual || !endTimeEqual) {
 				// this.setState({
 				// 	start_time: nextProps.start_time,
 				// 	end_time: nextProps.end_time

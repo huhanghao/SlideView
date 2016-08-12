@@ -13,8 +13,9 @@ import React, {
 
 import CommonStyle from './res/CommonStyle';
 import StringRes from './res/StringRes';
-
+import ApiUtils from './utils/ApiUtils';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Communications from 'react-native-communications';
 
 const styles = StyleSheet.create({
 	content: {
@@ -255,7 +256,7 @@ function ListHeader({order}) {
 				<View
 					style={styles.typeArea}
 				>
-				<Text style={styles.textType}>拼</Text>
+				<Text style={styles.textType}>包</Text>
     		</View>
 
 				<Text
@@ -295,26 +296,121 @@ function ListHeader({order}) {
   );
 };
 
-function TTButton({onPress, text, iconName, color}) {
-	return(
-		<TouchableOpacity
-			style={styles.buttonArea}
-			onPress={onPress}
-		>
-			<Icon
-				style={styles.buttonIcon}
-				name={iconName}
-				size={CommonStyle.iconSizeSmall}
-				color={color} />
-			<Text style={[styles.buttonText, {color: color}]}>{text}</Text>
-  	</TouchableOpacity>
-	);
-};
+class TTButton extends Component {
+
+	constructor(props) {
+    super(props);
+
+		this.onItemClick = this.onItemClick.bind(this);
+	}
+
+	onItemClick() {
+		this.props.onPress && this.props.onPress(this.props.data);
+	}
+
+	render() {
+		return(
+			<TouchableOpacity
+				style={styles.buttonArea}
+				onPress={this.onItemClick}
+			>
+				<Icon
+					style={styles.buttonIcon}
+					name={this.props.iconName}
+					size={CommonStyle.iconSizeSmall}
+					color={this.props.color} />
+				<Text style={[styles.buttonText, {color: this.props.color}]}>{this.props.text}</Text>
+	  	</TouchableOpacity>
+		);
+	}
+}
 
 class OrderBaoContent extends Component {
   constructor(props) {
     super(props);
+
+		console.log(JSON.stringify(this.props.order));
+		this.state = {
+			order: props.order,
+		}
+
+		this.renderButton = this.renderButton.bind(this);
+		this.onPickArrivePressed = this.onPickArrivePressed.bind(this);
+		this.apiPick = this.apiPick.bind(this);
+		this.apiArrived = this.apiArrived.bind(this);
   }
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.order != null) {
+			this.setState({
+				order: nextProps.order,
+			});
+		};
+	}
+
+	apiPick(subOrderId) {
+		const callback = {
+			success: () => {
+				alert('操作成功');
+				this.setState(
+					{
+						isRefreshing: false,
+					},
+				);
+				// alert(JSON.stringify(data));
+				this.onRefresh();
+			},
+			failed: (msg) => {
+				alert('apiPick failed ' + msg);
+				this.setState(
+					{
+						isRefreshing: false,
+					}
+				);
+			}
+		};
+
+		const params = {
+			bus_line_batch_id: this.state.order.id,
+			order_bus_id: subOrderId,
+		}
+
+		ApiUtils.postRequest({funcName: 'busline/order/catched/charter', params, callback});
+	}
+
+	apiArrived(subOrderId) {
+		const callback = {
+			success: () => {
+				alert('操作成功');
+				this.setState(
+					{
+						isRefreshing: false,
+					},
+				);
+				this.onRefresh();
+				// alert(JSON.stringify(data));
+			},
+			failed: (msg) => {
+				alert('apiArrived failed ' + msg);
+				this.setState(
+					{
+						isRefreshing: false,
+					}
+				);
+			}
+		};
+
+		const params = {
+			bus_line_batch_id: this.state.order.id,
+			order_bus_id: subOrderId,
+		}
+
+		ApiUtils.postRequest({funcName: 'busline/order/arrived/charter', params, callback});
+	}
+
+	onRefresh() {
+		this.props.onRefresh();
+	}
 
 	renderMsgArea(show, msg) {
 		if (show) {
@@ -330,8 +426,64 @@ class OrderBaoContent extends Component {
 		}
 	}
 
+	onPickArrivePressed(order) {
+		subOrderId = order.order_busices[0].id;
+		subOrderStatus = order.order_busices[0].status;
+
+		if (subOrderStatus === 'assigned') {
+			this.apiPick(subOrderId);
+		} else {
+			this.apiArrived(subOrderId);
+		}
+	}
+
+	onCallPressed(phone) {
+		Communications.phonecall(phone, true);
+	}
+
+	renderButton(user, order, orderStatus) {
+		let buttonTextPick = '';
+		if (order.status === 'assigned') {
+			buttonTextPick = '接到乘客';
+		} else if (order.status === 'trip') {
+			buttonTextPick = '乘客到达';
+		}
+
+		let buttonShow = orderStatus === 'start';
+		if (buttonShow && buttonTextPick != '') {
+			buttonShow = true;
+		} else {
+			buttonShow = false;
+		}
+
+		if (buttonShow) {
+			return (
+				<View style={{ flexDirection: 'row' }}
+				>
+					<TTButton iconName="ios-person"
+						text="联系乘客"
+						color={CommonStyle.themeColorGreen}
+						onPress={this.onCallPressed}
+						data={user.user_phone}
+					/>
+
+					<TTButton iconName="ios-person"
+						text={buttonTextPick}
+						color={CommonStyle.themeColorGreen}
+						onPress={this.onPickArrivePressed}
+						data={this.state.order}
+					/>
+	   		</View>
+			);
+		} else {
+			return null;
+		}
+	}
+
   render() {
-			const order = this.props.order;
+			const order = this.state.order;
+
+			const orderStatus = order.status;
 
 			const user = {
 				user_name: order.order_busices[0].user_name,
@@ -418,16 +570,9 @@ class OrderBaoContent extends Component {
     						{user.user_name}
     					</Text>
 
-    					<TTButton iconName="ios-person"
-    					 	text="联系乘客"
-    						color={CommonStyle.themeColorGreen}
-    					/>
-
-    					<TTButton iconName="ios-person"
-    					 	text="接到乘客"
-    						color={CommonStyle.themeColorGreen}
-    					/>
-
+							{
+								this.renderButton(user, order.order_busices[0], orderStatus)
+							}
 
         		</View>
 

@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   arriveButton: {
     fontSize: CommonStyle.mediumFont,
     color: CommonStyle.themeColorRed,
-  }
+  },
 });
 
 const OrderPinDetailPageTypes = {
@@ -78,6 +78,7 @@ class OrderPinDetailPage extends React.Component {
    this.busGo = this.busGo.bind(this);
    this.refresh = this.refresh.bind(this);
    this.renderContent = this.renderContent.bind(this);
+   this.batchArrived = this.batchArrived.bind(this);
  }
 
   componentDidMount() {
@@ -105,6 +106,27 @@ class OrderPinDetailPage extends React.Component {
 
     ApiUtils.postRequest({funcName: 'busline/batch/start', params, callback});
   }
+
+  batchArrived() {
+    const callback = {
+      success: (data) => {
+        alert('到达目的地');
+        this.refresh();
+      },
+      failed: (msg) => {
+        alert('到达失败 ' + msg);
+      }
+    };
+
+    const params = {
+      id: this.state.order.id,
+    };
+
+    // alert(JSON.stringify(params));
+
+    ApiUtils.postRequest({funcName: 'busline/batch/arrived', params, callback});
+  }
+
 
   refresh() {
     const callback = {
@@ -155,7 +177,9 @@ class OrderPinDetailPage extends React.Component {
     } else if (this.state.order.status === 'start'){
       return (
         <View style={styles.arriveArea}>
-          <TouchableOpacity style={styles.arriveButtonArea}>
+          <TouchableOpacity style={styles.arriveButtonArea}
+            onPress={this.batchArrived}
+          >
             <Text style={styles.arriveButton}>班线到达</Text>
           </TouchableOpacity>
         </View>

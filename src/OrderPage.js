@@ -36,7 +36,7 @@ class OrderPage extends React.Component {
     return (
       <View style={styles.container}>
         <TitleBar
-          navigationTitle={StringRes.trip}
+          navigationTitle={'订单'}
           navigator={this.props.navigator}
           isShowBackButton={false} />
 

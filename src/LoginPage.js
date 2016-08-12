@@ -29,6 +29,8 @@ const ScreenHeight = window.height;
 const ScreenWidth = window.width;
 const spinnerSize = CommonStyle.spinnerSize;
 
+const logo = require('./part/img/logo.png');
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -156,7 +158,10 @@ class LoginPage extends Component {
         />
 
         <View style={styles.aboveArea}>
-          <Icon name="ios-phone-portrait" size={30} color="#900" style={styles.avatar} />
+          <Image
+            source={logo}
+            style={styles.avatar}
+          />
         </View>
 
         <View style={styles.bottomArea}>
