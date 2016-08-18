@@ -33,10 +33,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
+	navigationTitleArea: {
+		flex: 1,
+		justifyContent: 'center',
+	},
+
   navigationTitle: {
-    flex: 1,
     textAlign: 'center',
-    textAlignVertical: 'center',
     color: 'black',
     fontSize: CommonStyle.bigFont,
   },
@@ -101,7 +104,10 @@ class TitleBar extends Component {
             {this.renderBackButton()}
           </TouchableOpacity>
 
-          <Text style={styles.navigationTitle}>{this.props.navigationTitle}</Text>
+					<View style={styles.navigationTitleArea}>
+     				<Text style={styles.navigationTitle}>{this.props.navigationTitle}</Text>
+     			</View>
+
           <TouchableOpacity
             style={styles.navigationRightButtonArea}>
           </TouchableOpacity>

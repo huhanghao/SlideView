@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  AsyncStorage,
 } from 'react-native';
 
 import React,{
@@ -16,6 +17,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CommonStyle from './part/res/CommonStyle';
 import StringRes from './part/res/StringRes';
 import TitleBar from './part/TitleBar';
+import ApiUtils from './part/utils/ApiUtils';
 
 const avatar = require('./part/img/avatar.png');
 
@@ -100,9 +102,45 @@ class MinePage extends React.Component {
   constructor() {
     super();
 
+    this.state = {
+      user: null,
+    }
+
     this.goToMorePage = this.goToMorePage.bind(this);
+    this.logout = this.logout.bind(this);
+    this.refreshUser = this.refreshUser.bind(this);
   }
 
+  componentDidMount() {
+      this.refreshUser();
+    }
+
+  logout() {
+    const callback = {
+      success: () => {
+        this.props.navigator.replace({
+          name: 'LoginPage',
+        });
+      },
+    };
+    ApiUtils.logout(callback);
+  }
+
+  refreshUser() {
+   AsyncStorage.getItem('token', (err, result) => {
+     const callback = {
+       success: (data) => {
+         this.setState({
+           user: data,
+         });
+       },
+       failed: (err) => {
+         console.log('auto login failed!' + err.toString());
+       },
+     };
+     ApiUtils.getUser(callback);
+   });
+ }
 
   render() {
     return (
@@ -117,11 +155,13 @@ class MinePage extends React.Component {
               <Image source={avatar} style={styles.avatar} />
             </View>
             <Text>
-              测试用户
+              {this.state.user == null ? "" : this.state.user.name}
             </Text>
 
             {/*<RightArrow />*/}
           </View>
+
+          <FuncItem icon={'ios-log-out'} text={'退出登录'} onClick={this.logout}/>
 
           {/* <FuncItem icon={'ios-home'} text={'车队信息'} />
           <FuncItem icon={'ios-home'} text={'车辆信息'} />

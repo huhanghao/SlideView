@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
 		borderRadius: CommonStyle.commonRadius,
   },
   commonRow: {
+		alignItems: 'center',
     paddingLeft: CommonStyle.pageHorizontalMargin,
     flexDirection: 'row',
     height: CommonStyle.commonRowHeight,
@@ -118,14 +119,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: CommonStyle.commonRowHeight * 2,
   },
-  startIcon: {
-    marginTop: 15,
-    marginLeft: CommonStyle.pageHorizontalMargin,
-    borderRadius: CommonStyle.iconSize / 2,
-    height: CommonStyle.iconSize,
-    width: CommonStyle.iconSize,
-    backgroundColor: CommonStyle.themeColorRed,
-  },
+	textIcon: {
+		color: 'white',
+		textAlign: 'center',
+		textAlignVertical: 'center',
+	},
+	startIcon: {
+		marginTop: 15,
+		marginLeft: CommonStyle.pageHorizontalMargin,
+		height: CommonStyle.iconSize,
+		width: CommonStyle.iconSize,
+		backgroundColor: CommonStyle.themeColorGreen,
+		justifyContent: 'center',
+	},
+	endIcon: {
+		marginLeft: CommonStyle.pageHorizontalMargin,
+		marginBottom: 15,
+		height: CommonStyle.iconSize,
+		width: CommonStyle.iconSize,
+		backgroundColor: CommonStyle.themeColorRed,
+		justifyContent: 'center',
+	},
   dotLine: {
     borderStyle: 'dotted',
     borderWidth: CommonStyle.borderWidth,
@@ -134,14 +148,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: CommonStyle.pageHorizontalMargin + CommonStyle.iconSize/2,
   },
-  endIcon: {
-    marginLeft: CommonStyle.pageHorizontalMargin,
-    marginBottom: 15,
-    borderRadius: CommonStyle.iconSize / 2,
-    height: CommonStyle.iconSize,
-    width: CommonStyle.iconSize,
-    backgroundColor: CommonStyle.themeColorGreen,
-  },
 	userLeftIconArea: {
 		marginLeft: CommonStyle.pageHorizontalMargin,
 		height: CommonStyle.iconSize,
@@ -149,13 +155,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-  textIcon: {
-    color: 'white',
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    height: CommonStyle.iconSize,
-    width: CommonStyle.iconSize,
-  },
   startEndArea: {
     flex: 1,
     marginLeft: CommonStyle.pageHorizontalMargin,

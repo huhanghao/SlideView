@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
   commonRow: {
     paddingLeft: CommonStyle.pageHorizontalMargin,
     flexDirection: 'row',
+		alignItems: 'center',
     height: CommonStyle.commonRowHeight,
 		borderColor: CommonStyle.dividerGray,
     borderWidth: CommonStyle.borderWidth,
@@ -47,6 +48,7 @@ const styles = StyleSheet.create({
 	marginLeftRow: {
 		paddingLeft: CommonStyle.pageHorizontalMargin * 2 + CommonStyle.iconSize,
     flexDirection: 'row',
+		alignItems: 'center',
     height: CommonStyle.commonRowHeight,
 		borderBottomWidth: CommonStyle.borderWidth,
     borderBottomColor: CommonStyle.dividerGray,
@@ -64,15 +66,17 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     textAlignVertical: 'center',
   },
-  textType: {
-    fontSize: CommonStyle.bigFont,
+  textTypeArea: {
     height: CommonStyle.iconSizeBig,
     width: CommonStyle.iconSizeBig,
     backgroundColor: CommonStyle.themeColorGreen,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    color: 'white',
+		justifyContent: 'center',
   },
+	textType: {
+		color: 'white',
+		fontSize: CommonStyle.bigFont,
+		textAlign: 'center',
+	},
   textTripNo: {
     flex: 1,
     textAlign: 'justify',
@@ -89,29 +93,34 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: CommonStyle.commonRowHeight * 2,
   },
+	dotLine: {
+		borderStyle: 'dotted',
+		borderWidth: CommonStyle.borderWidth,
+		borderColor: CommonStyle.dividerGray,
+		width: 0,
+		flex: 1,
+		marginLeft: CommonStyle.pageHorizontalMargin + CommonStyle.iconSize/2,
+	},
+	textIcon: {
+		color: 'white',
+		textAlign: 'center',
+		textAlignVertical: 'center',
+	},
   startIcon: {
     marginTop: 15,
     marginLeft: CommonStyle.pageHorizontalMargin,
-    borderRadius: CommonStyle.iconSize / 2,
     height: CommonStyle.iconSize,
     width: CommonStyle.iconSize,
     backgroundColor: CommonStyle.themeColorGreen,
-  },
-  dotLine: {
-    borderStyle: 'dotted',
-    borderWidth: CommonStyle.borderWidth,
-    borderColor: CommonStyle.dividerGray,
-    width: 0,
-    flex: 1,
-    marginLeft: CommonStyle.pageHorizontalMargin + CommonStyle.iconSize/2,
+		justifyContent: 'center',
   },
   endIcon: {
     marginLeft: CommonStyle.pageHorizontalMargin,
     marginBottom: 15,
-    borderRadius: CommonStyle.iconSize / 2,
     height: CommonStyle.iconSize,
     width: CommonStyle.iconSize,
     backgroundColor: CommonStyle.themeColorRed,
+		justifyContent: 'center',
   },
 	userLeftIconArea: {
 		marginLeft: CommonStyle.pageHorizontalMargin,
@@ -132,13 +141,6 @@ const styles = StyleSheet.create({
 	},
 	userLeftIcon: {
 	},
-  textIcon: {
-    color: 'white',
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    height: CommonStyle.iconSize,
-    width: CommonStyle.iconSize,
-  },
   startEndArea: {
     flex: 1,
     marginLeft: CommonStyle.pageHorizontalMargin,
@@ -209,9 +211,13 @@ function ListPinItem({navigator, order}) {
           {StringRes.getOrderStatus(order.status)}
         </Text>
 
-        <Text style={styles.textType}>
-          拼
-        </Text>
+
+				<View style={styles.textTypeArea}>
+					<Text style={styles.textType}>
+						拼
+					</Text>
+    		</View>
+
       </View>
 
       <View style={styles.commonRow}>
@@ -307,9 +313,12 @@ function ListBaoItem({order, navigator}) {
           {StringRes.getOrderStatus(order.status)}
         </Text>
 
-        <Text style={styles.textType}>
-          包
-        </Text>
+
+				<View style={styles.textTypeArea}>
+					<Text style={styles.textType}>
+						包
+					</Text>
+    		</View>
       </View>
 
       <View style={styles.commonRow}>
