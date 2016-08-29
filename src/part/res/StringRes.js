@@ -6,9 +6,11 @@ const StringRes = {
   trip: '行程',
   pinCar: '拼车',
   baoCar: '包车',
+  airLine: '机场专线',
   today: '今天',
   tomorrow: '明天',
   future: '未来7天',
+  qrCode: '二维码扫描',
   getOrderStatus: (code) => {
     switch (code) {
       case 'assigned':

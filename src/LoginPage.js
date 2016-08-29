@@ -146,7 +146,7 @@ class LoginPage extends Component {
         <TitleBar
           navigationTitle={StringRes.login}
           navigator={this.props.navigator}
-          isShowBackButton
+          isShowBackButton={false}
           />
 
         <Spinner

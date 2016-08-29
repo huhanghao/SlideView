@@ -8,8 +8,11 @@ import LoginPage from './src/LoginPage';
 import MainPage from './src/MainPage';
 import MorePage from './src/MorePage';
 import OrderPinDetailPage from './src/OrderPinDetailPage';
-import OrderBaoDetailPage from './src/OrderBaoDetailPage'
-import MineRatingPage from './src/MineRatingPage'
+import OrderBaoDetailPage from './src/OrderBaoDetailPage';
+import OrderAirDetailPage from './src/OrderAirDetailPage';
+import MineRatingPage from './src/MineRatingPage';
+import QRcodePageAndroid from './src/part/QRCodeScreenAndroid';
+import QRcodePageiOS from './src/part/QRCodeScreen';
 
 const initialRoute = { name: 'LoginPage' };
 
@@ -32,13 +35,25 @@ function RouteMapper(route, navigation) {
     return (
       <OrderBaoDetailPage {...route.params} navigator={navigation} />
     );
+  } else if (route.name === 'OrderAirDetailPage') {
+    return (
+      <OrderAirDetailPage {...route.params} navigator={navigation} />
+    );
   } else if (route.name === 'MorePage') {
     return (
       <MorePage navigator={navigation} />
     );
+  } else if (route.name === 'QRcodePageAndroid') {
+    return (
+      <QRcodePageAndroid {...route.params} navigator={navigation} />
+    );
+  } else if (route.name === 'QRcodePageiOS') {
+    return (
+      <QRcodePageiOS {...route.params} navigator={navigation} />
+    );
   } else if (route.name === 'TestPage') {
     return (
-      <MineRatingPage
+      <OrderAirDetailPage
         navigator={navigation} />
     );
   }

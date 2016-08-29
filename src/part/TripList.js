@@ -169,13 +169,16 @@ const styles = StyleSheet.create({
 });
 
 const TYPE_PIN = 0;
+const TYPE_BAO = 1;
+const TYPE_AIR = 2;
 
 function ListPinItem({navigator, order}) {
 
 	let orderCount = 1;
 	let userCount = 1;
 	if (order.order_busices == null) {
-
+		orderCount = 0;
+		userCount = 0;
 	} else {
 			orderCount = order.order_busices.length;
 			userCount = 0;
@@ -280,6 +283,117 @@ function ListPinItem({navigator, order}) {
   );
 };
 
+function ListAirItem({navigator, order}) {
+
+	let orderCount = 1;
+	let userCount = 1;
+	if (order.order_busices == null) {
+		orderCount = 0;
+		userCount = 0;
+	} else {
+			orderCount = order.order_busices.length;
+			userCount = 0;
+
+			const orderList = order.order_busices;
+			const size = orderList.length;
+			let pos = 0;
+
+			for(; pos <size; pos++) {
+					userCount += orderList[pos].order_bus_passengers.length;
+			}
+	}
+
+	const goToAriDetail = function() {
+		navigator.push(
+			{
+					name: 'OrderAirDetailPage',
+					params: {
+						order: order,
+					},
+			}
+		);
+	};
+
+  return(
+    <TouchableOpacity
+			style={styles.cardBg}
+			onPress={goToAriDetail}
+		>
+
+      <View style={styles.commonRow}>
+        <Text style={styles.textStatus}>
+          {StringRes.getOrderStatus(order.status)}
+        </Text>
+
+
+				<View style={styles.textTypeArea}>
+					<Text style={styles.textType}>
+						机
+					</Text>
+    		</View>
+
+      </View>
+
+      <View style={styles.commonRow}>
+        <Text style={styles.textTripNo}>
+          派单号: {order.id}
+      </Text>
+
+      <Text style={styles.textTripOrders}>
+        {orderCount}个订单{userCount}位乘客
+      </Text>
+      </View>
+
+
+      <View style={styles.addressArea}>
+
+        {/*left icon area*/}
+        <View>
+          <View style={styles.startIcon}>
+            <Text style={styles.textIcon}>
+              起
+            </Text>
+          </View>
+
+          <View style={styles.dotLine}>
+          </View>
+
+          <View style={styles.endIcon}>
+            <Text style={styles.textIcon}>
+              终
+            </Text>
+          </View>
+        </View>
+
+        {/*right address info*/}
+        <View style={styles.startEndArea}>
+
+          <View style={styles.textAddressArea}>
+            <Text style={styles.textAddress}>
+              {order.start_area}
+            </Text>
+          </View>
+
+
+          <View style={styles.textAddressArea}>
+            <Text style={styles.textAddress}>
+              {order.end_area}
+            </Text>
+          </View>
+
+        </View>
+      </View>
+
+      <View style={styles.commonRow}>
+        <Text style={styles.textSendingTime}>
+          发车时间: {order.start_time}
+        </Text>
+      </View>
+
+    </TouchableOpacity>
+  );
+};
+
 function ListBaoItem({order, navigator}) {
 
 	let userCount = 1;
@@ -287,7 +401,8 @@ function ListBaoItem({order, navigator}) {
 	if (order.order_busices == null && order.order_busices[0] == null) {
 		userCount = 1;
 	} else {
-		userCount = order.order_busices[0].order_bus_passengers == null ? 1 : order.order_busices[0].order_bus_passengers.length;
+		// userCount = order.order_busices[0].order_bus_passengers == null ? 1 : order.order_busices[0].order_bus_passengers.length;
+		userCount = 1;
 	}
 
 	const goToBaoDetail = function() {
@@ -587,16 +702,24 @@ class TripList extends Component {
 	}
 
 	renderItem(rowData) {
-		if (rowData.type != TYPE_PIN) {
+		console.log('rowData.type = ' + rowData.type);
+		if (rowData.type == TYPE_PIN) {
+			return (
+				<ListPinItem
+					navigator={this.props.navigator}
+					order={rowData}
+				/>
+			);
+		} else if (rowData.type == TYPE_BAO) {
 			return (
 				<ListBaoItem
 					navigator={this.props.navigator}
 					order={rowData}
 				/>
 			);
-		} else {
+		} else if (rowData.type == TYPE_AIR) {
 			return (
-				<ListPinItem
+				<ListAirItem
 					navigator={this.props.navigator}
 					order={rowData}
 				/>

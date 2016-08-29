@@ -5,7 +5,7 @@ const CommonStyle = {
   commonBg: '#e8e8e8',
   commonGray: '#f8f8f8',
   fontGray: 'gray',
-  iconGray: '#f8f8f8',
+  iconGray: '#000000',
   dividerGray: '#f8f8f8',
   iconSizeHuge: 60,
   iconSizeBig: 40,

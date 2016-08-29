@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
   },
 
   navigationLeftButtonTextArea: {
-    flex: 1,
     justifyContent: 'center',
   },
 
@@ -29,8 +28,12 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
 
+	navigationRightButtonIcon: {
+		marginRight: 20,
+	},
+
   navigationRightButtonArea: {
-    flex: 1,
+		justifyContent: 'center',
   },
 
 	navigationTitleArea: {
@@ -60,6 +63,7 @@ class TitleBar extends Component {
     super(props);
     this.backButtonClicked = this.backButtonClicked.bind(this);
     this.renderBackButton = this.renderBackButton.bind(this);
+		this.renderRightButton = this.renderRightButton.bind(this);
 
     let bgColor = props.bgColor;
     if (bgColor == null) {
@@ -89,10 +93,18 @@ class TitleBar extends Component {
     }
   }
 
-  // 用到再写
-  renderRightButton() {
+	renderRightButton() {
+		if (this.props.isShowRightButton) {
+			return (
+				<Icon name={this.props.rightButtonText}
+					size={CommonStyle.iconSize}
+					color={CommonStyle.iconGray}
+					style={styles.navigationRightButtonIcon}
+					/>
+			);
+		}
+	}
 
-  }
 
   render() {
       return (
@@ -109,7 +121,10 @@ class TitleBar extends Component {
      			</View>
 
           <TouchableOpacity
-            style={styles.navigationRightButtonArea}>
+            style={styles.navigationRightButtonArea}
+						onPress={this.props.rightButtonAction}
+						>
+						{this.renderRightButton()}
           </TouchableOpacity>
         </View>
   	   );

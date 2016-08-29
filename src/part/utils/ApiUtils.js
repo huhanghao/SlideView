@@ -38,6 +38,11 @@ const ApiUtils = {
     // return { token: '123456' };
   },
   post({ url, params }) {
+
+    console.log("post url = " + url);
+
+    console.log("post params = " + JSON.stringify(params));
+
     const timeout = new Promise((resolve, reject) => {
       setTimeout(() => reject(new Error('request timeout')), 5000);
     });

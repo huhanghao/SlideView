@@ -47,7 +47,7 @@ class MineRatingPage extends React.Component {
 }
 
 MineRatingPage.propTypes = {
-  navigator: object,
+  navigator: PropTypes.object,
 };
 
 module.exports = MineRatingPage;
