@@ -100,20 +100,20 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'justify',
     textAlignVertical: 'center',
-    fontSize: CommonStyle.mediumFont,
+    // fontSize: CommonStyle.mediumFont,
   },
   textStatus: {
     textAlign: 'justify',
     textAlignVertical: 'center',
     marginRight: CommonStyle.pageHorizontalMargin,
-    fontSize: CommonStyle.mediumFont,
+    // fontSize: CommonStyle.mediumFont,
     color: CommonStyle.themeColorGreen,
   },
 	textPassagerCount: {
 		textAlign: 'justify',
     textAlignVertical: 'center',
     marginRight: CommonStyle.pageHorizontalMargin,
-    fontSize: CommonStyle.mediumFont,
+    // fontSize: CommonStyle.mediumFont,
 	},
   addressArea: {
     flexDirection: 'row',
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
 	},
 	subTitle: {
 		color: 'white',
-		fontSize: CommonStyle.bigFont,
+		// fontSize: CommonStyle.bigFont,
 		flex: 1,
 		textAlign: 'center',
 		textAlignVertical: 'center',
@@ -473,6 +473,8 @@ class OrderPinContent extends Component {
 			ds,
 	  };
 
+		console.log(props.order);
+
 		this.renderItem = this.renderItem.bind(this);
 		this.onPickArriveClick = this.onPickArriveClick.bind(this);
 		this.apiPick = this.apiPick.bind(this);
@@ -582,7 +584,7 @@ class OrderPinContent extends Component {
 	renderItem(order) {
 		var userCount = order.order_bus_passengers.length;
 		var msgHeight = 0;
-		if (order.msg != null && order.msg.length > 0) {
+		if (order.remark != null && order.remark.length > 0) {
 			msgHeight = 1;
 		}
 

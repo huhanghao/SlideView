@@ -80,6 +80,7 @@ class OrderBaoDetailPage extends React.Component {
 
   componentDidMount() {
     BackAndroid.addEventListener('hardwareBackPress', this.state.backEventListener);
+    this.refresh();
   }
   componentWillUnmount() {
     BackAndroid.removeEventListener('hardwareBackPress', this.state.backEventListener);
@@ -166,7 +167,7 @@ class OrderBaoDetailPage extends React.Component {
           <TouchableOpacity style={styles.arriveButtonArea}
             onPress={this.batchArrived}
           >
-            <Text style={styles.arriveButton}>班线到达</Text>
+            <Text style={styles.arriveButton}>到达目的地</Text>
           </TouchableOpacity>
         </View>
       );

@@ -83,6 +83,7 @@ class OrderPinDetailPage extends React.Component {
 
   componentDidMount() {
     BackAndroid.addEventListener('hardwareBackPress', this.state.backEventListener);
+    this.refresh();
   }
   componentWillUnmount() {
     BackAndroid.removeEventListener('hardwareBackPress', this.state.backEventListener);

@@ -101,6 +101,7 @@ class OrderAirrDetailPage extends React.Component {
 
   componentDidMount() {
     BackAndroid.addEventListener('hardwareBackPress', this.state.backEventListener);
+    this.refresh();
   }
   componentWillUnmount() {
     BackAndroid.removeEventListener('hardwareBackPress', this.state.backEventListener);
@@ -205,15 +206,23 @@ class OrderAirrDetailPage extends React.Component {
     let order_id = data.order_id;
 
     if (order_id == null) {
-      const psw = JSON.parse(data);
-      order_id = psw.order_id;
+      try {
+        const psw = JSON.parse(data);
+        order_id = psw.order_id;
+      } catch (e) {
+        order_id = null;
+      } finally {
+
+      }
+
+
     }
 
 
     if (order_id != null) {
       this.apiCheckTicket(order_id);
     } else {
-      alert('无效的票据');
+      alert('该票据与当前班线不符!');
     }
   }
 

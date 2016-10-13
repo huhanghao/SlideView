@@ -81,12 +81,6 @@ const styles = StyleSheet.create({
 		borderBottomWidth: CommonStyle.borderWidth,
     borderBottomColor: CommonStyle.dividerGray,
 	},
-  textStatus: {
-    fontSize: CommonStyle.bigFont,
-    flex: 1,
-    textAlign: 'justify',
-    textAlignVertical: 'center',
-  },
   textType: {
     fontSize: CommonStyle.bigFont,
     height: CommonStyle.iconSizeBig,
@@ -100,20 +94,23 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'justify',
     textAlignVertical: 'center',
-    fontSize: CommonStyle.mediumFont,
+    // fontSize: CommonStyle.mediumFont,
   },
   textStatus: {
     textAlign: 'justify',
     textAlignVertical: 'center',
     marginRight: CommonStyle.pageHorizontalMargin,
-    fontSize: CommonStyle.mediumFont,
     color: CommonStyle.themeColorGreen,
   },
+	textStatusSmall: {
+		flex: 1,
+    textAlign: 'justify',
+    textAlignVertical: 'center',
+	},
 	textPassagerCount: {
 		textAlign: 'justify',
     textAlignVertical: 'center',
     marginRight: CommonStyle.pageHorizontalMargin,
-    fontSize: CommonStyle.mediumFont,
 	},
   addressArea: {
     flexDirection: 'row',
@@ -274,7 +271,7 @@ function ListHeader({order}) {
 	    <View style={styles.cardBg2x}>
 
 	      <View style={styles.commonRow}>
-	        <Text style={styles.textTripNo}>
+	        <Text style={styles.textStatusSmall}>
 	          派单号: {order.id}
 	      	</Text>
 

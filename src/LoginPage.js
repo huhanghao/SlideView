@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  AsyncStorage,
 } from 'react-native';
 
 import React, {
@@ -14,7 +15,8 @@ import React, {
 } from 'react';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import dismissKeyboard from 'react-native-dismiss-keyboard';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import TitleBar from './part/TitleBar';
 
 import StringRes from './part/res/StringRes';
@@ -38,7 +40,6 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     backgroundColor: 'transparent',
-    height: 40,
     fontSize: 16,
   },
   inputArea: {
@@ -99,12 +100,30 @@ class LoginPage extends Component {
   constructor() {
     super();
 
+// 13987121099
+// 130019
     this.state = {
-      phoneText: '13987121099',
-      pswText: '130019',
+      phoneText: '',
+      pswText: '',
       isLoading: false,
     };
     this.login = this.login.bind(this);
+  }
+
+  componentDidMount() {
+    AsyncStorage.getItem('phone')
+    .then(phone => {
+      this.setState({
+        phoneText: phone,
+      });
+    });
+
+    AsyncStorage.getItem('password')
+    .then(password => {
+      this.setState({
+        pswText: password,
+      });
+    });
   }
 
   login() {
@@ -113,6 +132,10 @@ class LoginPage extends Component {
         this.setState({
           isLoading: false,
         });
+
+        AsyncStorage.setItem('phone', this.state.phoneText);
+        AsyncStorage.setItem('password', this.state.pswText);
+
         this.goToMain();
       },
       failed: msg => {
@@ -140,9 +163,16 @@ class LoginPage extends Component {
     });
   }
 
+  hideKeyboard() {
+    dismissKeyboard();
+  }
+
   render() {
     return (
-      <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={this.hideKeyboard}
+        >
         <TitleBar
           navigationTitle={StringRes.login}
           navigator={this.props.navigator}
@@ -199,7 +229,10 @@ class LoginPage extends Component {
 
         </View>
 
-      </View>
+        {/* The view that will animate to match the keyboards height */}
+        <KeyboardSpacer/>
+
+      </TouchableOpacity>
 		);
   }
 

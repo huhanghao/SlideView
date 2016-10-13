@@ -100,20 +100,20 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'justify',
     textAlignVertical: 'center',
-    fontSize: CommonStyle.mediumFont,
+    // fontSize: CommonStyle.mediumFont,
   },
   textStatus: {
     textAlign: 'justify',
     textAlignVertical: 'center',
     marginRight: CommonStyle.pageHorizontalMargin,
-    fontSize: CommonStyle.mediumFont,
+    // fontSize: CommonStyle.mediumFont,
     color: CommonStyle.themeColorGreen,
   },
 	textPassagerCount: {
 		textAlign: 'justify',
     textAlignVertical: 'center',
     marginRight: CommonStyle.pageHorizontalMargin,
-    fontSize: CommonStyle.mediumFont,
+    // fontSize: CommonStyle.mediumFont,
 	},
   addressArea: {
     flexDirection: 'row',

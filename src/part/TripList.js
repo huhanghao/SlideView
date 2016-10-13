@@ -41,10 +41,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
 		alignItems: 'center',
     height: CommonStyle.commonRowHeight,
-		borderColor: CommonStyle.dividerGray,
-    borderWidth: CommonStyle.borderWidth,
-		borderRadius: CommonStyle.commonRadius,
+		borderBottomWidth: CommonStyle.borderWidth,
+    borderBottomColor: CommonStyle.dividerGray,
   },
+	commonRowVertical: {
+		paddingLeft: CommonStyle.pageHorizontalMargin,
+		height: CommonStyle.commonRowHeight,
+		justifyContent: 'center',
+		borderBottomWidth: CommonStyle.borderWidth,
+		borderBottomColor: CommonStyle.dividerGray,
+	},
 	marginLeftRow: {
 		paddingLeft: CommonStyle.pageHorizontalMargin * 2 + CommonStyle.iconSize,
     flexDirection: 'row',
@@ -83,6 +89,12 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     fontSize: CommonStyle.mediumFont,
   },
+	textTripNoPro: {
+
+	},
+	textOrderUsersCount: {
+		marginTop: 5,
+	},
   textTripOrders: {
     textAlign: 'justify',
     textAlignVertical: 'center',
@@ -223,14 +235,14 @@ function ListPinItem({navigator, order}) {
 
       </View>
 
-      <View style={styles.commonRow}>
-        <Text style={styles.textTripNo}>
+      <View style={styles.commonRowVertical}>
+        <Text style={styles.textTripNoPro}>
           派单号: {order.id}
-      </Text>
+	      </Text>
 
-      <Text style={styles.textTripOrders}>
-        {orderCount}个订单{userCount}位乘客
-      </Text>
+	      <Text style={styles.textOrderUsersCount}>
+	        {orderCount}个订单{userCount}位乘客
+	      </Text>
       </View>
 
 
@@ -334,12 +346,12 @@ function ListAirItem({navigator, order}) {
 
       </View>
 
-      <View style={styles.commonRow}>
-        <Text style={styles.textTripNo}>
+      <View style={styles.commonRowVertical}>
+        <Text style={styles.textTripNoPro}>
           派单号: {order.id}
       </Text>
 
-      <Text style={styles.textTripOrders}>
+      <Text style={styles.textOrderUsersCount}>
         {orderCount}个订单{userCount}位乘客
       </Text>
       </View>
@@ -436,15 +448,15 @@ function ListBaoItem({order, navigator}) {
     		</View>
       </View>
 
-      <View style={styles.commonRow}>
-        <Text style={styles.textTripNo}>
-          派单号: {order.id}
-      </Text>
+			<View style={styles.commonRowVertical}>
+				<Text style={styles.textTripNoPro}>
+						派单号: {order.id}
+				</Text>
 
-      <Text style={styles.textTripOrders}>
-        {userCount}位乘客
-      </Text>
-      </View>
+				<Text style={styles.textOrderUsersCount}>
+					{userCount}位乘客
+				</Text>
+			</View>
 
 
       <View style={styles.addressArea}>
