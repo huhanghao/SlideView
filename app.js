@@ -10,6 +10,8 @@ import MorePage from './src/MorePage';
 import OrderPinDetailPage from './src/OrderPinDetailPage';
 import OrderBaoDetailPage from './src/OrderBaoDetailPage';
 import OrderAirDetailPage from './src/OrderAirDetailPage';
+import OrderGovDetailPage from './src/OrderGovDetailPage';
+import UpdatePage from './src/UpdatePage';
 import MineRatingPage from './src/MineRatingPage';
 import QRcodePageAndroid from './src/part/QRCodeScreenAndroid';
 import QRcodePageiOS from './src/part/QRCodeScreen';
@@ -35,11 +37,15 @@ function RouteMapper(route, navigation) {
     return (
       <OrderBaoDetailPage {...route.params} navigator={navigation} />
     );
+  } else if (route.name === 'OrderGovDetailPage') {
+    return (
+      <OrderGovDetailPage {...route.params} navigator={navigation} />
+    );
   } else if (route.name === 'OrderAirDetailPage') {
     return (
       <OrderAirDetailPage {...route.params} navigator={navigation} />
     );
-  } else if (route.name === 'MorePage') {
+  }else if (route.name === 'MorePage') {
     return (
       <MorePage navigator={navigation} />
     );
@@ -56,16 +62,22 @@ function RouteMapper(route, navigation) {
       <OrderAirDetailPage
         navigator={navigation} />
     );
+  } else if (route.name === 'UpdatePage') {
+    return (
+      <UpdatePage
+        {...route.params}
+        navigator={navigation} />
+    )
   }
 }
 
 class tutu extends Component {
   render() {
     return (
-      <Navigator
-        initialRoute={initialRoute}
-        renderScene={RouteMapper}
-      />
+        <Navigator
+          initialRoute={initialRoute}
+          renderScene={RouteMapper}
+        />
     );
   }
 }

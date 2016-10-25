@@ -1,24 +1,29 @@
 import {
   AsyncStorage,
+  Platform,
 } from 'react-native';
 
 import Promise from 'ypromise';
+import VersionNumber from 'react-native-version-number';
 
 // import LoadingView from './LoadingView';
 
 const ApiUtils = {
   //
-  BASE_URL: 'http://tt.jt169.com/staff/',    // 线上服务器
-  BASE_URL_WITH_OUT_TOKEN: 'http://tt.jt169.com/',
-  TOKEN_URL: 'http://tt.jt169.com/common/staff/token',
+  // BASE_URL: 'http://tt.jt169.com/staff/',    // 线上服务器
+  // BASE_URL_WITH_OUT_TOKEN: 'http://tt.jt169.com/',
+  // TOKEN_URL: 'http://tt.jt169.com/common/staff/token',
   // BASE_URL: 'http://tuyue.reemii.cn/staff/',
   //
   // BASE_URL_WITH_OUT_TOKEN: 'http://tuyue.reemii.cn',
   //
   // TOKEN_URL: 'http://tuyue.reemii.cn/common/staff/token',
-  // BASE_URL: 'http://192.168.0.48:8080/staff/',
-  // BASE_URL_WITH_OUT_TOKEN: 'http://192.168.0.48:8080/',
-  // TOKEN_URL: 'http://192.168.0.48:8080/common/staff/token',
+  // BASE_URL: 'http://120.76.29.221:8080/staff/',
+  // BASE_URL_WITH_OUT_TOKEN: 'http://120.76.29.221:8080/',
+  // TOKEN_URL: 'http://120.76.29.221:8080/common/staff/token',
+  BASE_URL: 'http://192.168.1.194:8080/staff/',
+  BASE_URL_WITH_OUT_TOKEN: 'http://192.168.1.194:8080/',
+  TOKEN_URL: 'http://192.168.1.194:8080/common/staff/token',
   // BASE_URL: 'http://192.168.1.114:8080/tuyue/staff/',
   //
   // BASE_URL_WITH_OUT_TOKEN: 'http://192.168.1.114:8080/tuyue/',
@@ -321,6 +326,48 @@ const ApiUtils = {
       // LoadingView.dismiss();
       console.log(ex);
       callback.failed(ex);
+    });
+  },
+  checkVersion(callback) {
+    /**
+     * 检测移动端是否更新
+     * mobileType
+     * an_driver:安卓司机端
+     * an_user:安卓用户端
+     * an_rent:安卓网约车司机端
+     * ios_driver:IOS司机端
+     * ios_user:IOS用户端
+     * ios_rent:网约车司机端
+     * 返回Map类型
+     * key:is_update 是否更新;true,更新;false:不更新
+     * key:is_enforce 是否强制更新;true,强制更新;false,不强制更新过
+     * key:current_url 更新地址
+     * key:current_version 当前版本
+     * key:contents 更新日志
+     * key:is_update 更新
+     * key:is_update 更新
+     *
+     * @param mobileType    类型
+     * @param mobileVersion 移动端版本
+     * @return
+     * @throws Exception
+     */
+
+    console.log(VersionNumber.appVersion);
+    const url = this.BASE_URL_WITH_OUT_TOKEN + 'common/staff/check_version';
+    const params = {
+      mobile_type: (Platform.OS === 'ios') ? 'ios_driver': 'an_driver',
+      mobile_version: VersionNumber.appVersion,
+    };
+
+    this.post({url, params}).then(json => {
+      console.log(JSON.stringify(json));
+      callback.success(json);
+      // LoadingView.dismiss();
+    })
+    .catch(e => {
+      console.log(JSON.stringify(e));
+      callback.failed(e.toString());
     });
   },
 };

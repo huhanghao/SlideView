@@ -18,17 +18,17 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const styles = StyleSheet.create({
   topMenuViewStyle: {
-    marginTop: 20,
+    marginTop: 5,
     flexDirection: 'row',
     alignItems: 'center',
-    height: 100,
+    height: 45,
   },
 
   menuItemStyle: {
     flex: 1,
     borderWidth: 1,
     alignItems: 'center',
-    height: 100,
+    height: 45,
   },
 });
 

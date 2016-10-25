@@ -16,14 +16,15 @@ const styles = StyleSheet.create({
   topMenuViewStyle: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 100,
+    height: 45,
   },
 
   menuItemStyle: {
     flex: 1,
     alignItems: 'center',
-    height: 100,
+    height: 45,
     backgroundColor: 'white',
+    flexDirection: 'column',
   },
 
   menuItemSelectedStyle: {
@@ -46,17 +47,28 @@ const styles = StyleSheet.create({
   },
 
   menuItemTextUnselectedStyle: {
-    marginTop: 20,
+    marginTop: 10,
     fontSize: 16,
     color: 'black',
     textAlign: 'center',
   },
 
   menuItemTextSelectedStyle: {
-    marginTop: 20,
+    marginTop: 10,
     fontSize: 16,
     color: CommonStyle.themeColorGreen,
     textAlign: 'center',
+  },
+
+  menuItemBottomLine: {
+    height: 2,
+    backgroundColor: 'white',
+  },
+
+  menuItemBottomLineChecked: {
+    width: 80,
+    height: 2,
+    backgroundColor: CommonStyle.themeColorGreen,
   },
 });
 
@@ -70,24 +82,21 @@ class TripDateCell extends React.Component {
   render() {
     return (
       <TouchableOpacity
-        style={this.props.selected === true
-        ? [styles.menuItemStyle, styles.menuItemSelectedStyle] : [styles.menuItemStyle,
-          styles.menuItemUnselectedStyle]} onPress={this.props.onPress}
+        style={styles.menuItemStyle}
+        onPress={this.props.onPress}
       >
-        <View>
-          <Image
-            style={styles.menuItemImageStyle}
-            source={this.props.selected === true
-            ? this.props.selectedImage :
-              this.props.unselectedImage}
-          />
+        <Text
+          style={this.props.selected === true ? styles.menuItemTextSelectedStyle
+            : styles.menuItemTextUnselectedStyle}
+        >{this.props.text}
+        </Text>
 
-          <Text
-            style={this.props.selected === true ? styles.menuItemTextSelectedStyle
-              : styles.menuItemTextUnselectedStyle}
-          >{this.props.text}
-          </Text>
-        </View>
+        <View style={{flex:1}} />
+
+        <View
+          style={ this.props.selected === true ? styles.menuItemBottomLineChecked
+            : styles.menuItemBottomLine }
+        />
       </TouchableOpacity>
 
   );

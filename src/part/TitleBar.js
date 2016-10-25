@@ -3,6 +3,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+	Platform,
 } from 'react-native';
 
 import React, {
@@ -18,6 +19,7 @@ const styles = StyleSheet.create({
   navigationBar: {
     height: CommonStyle.navBarHeight,
     flexDirection: 'row',
+		marginTop: (Platform.OS === 'ios') ? 18: 0,
   },
 
   navigationLeftButtonTextArea: {

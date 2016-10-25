@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Dimensions,
   AsyncStorage,
+  Linking,
 } from 'react-native';
 
 import React, {
@@ -108,6 +109,8 @@ class LoginPage extends Component {
       isLoading: false,
     };
     this.login = this.login.bind(this);
+    this.check = this.check.bind(this);
+    this.goToUpdateInfoPage = this.goToUpdateInfoPage.bind(this);
   }
 
   componentDidMount() {
@@ -123,6 +126,36 @@ class LoginPage extends Component {
       this.setState({
         pswText: password,
       });
+    });
+
+    // check new version
+    this.check();
+  }
+
+  check() {
+    // Linking.openURL("http://www.baidu.com/")
+    //   .catch(err =>
+    //     console.error('An error occurred', err)
+    //   );
+
+
+    ApiUtils.checkVersion({
+      success: (data) => {
+        if (data.is_update)
+          this.goToUpdateInfoPage(data);
+      },
+      failed: (e) => {
+        // alert(e);
+      },
+    })
+  }
+
+  goToUpdateInfoPage(appInfo) {
+    this.props.navigator.push({
+      name: 'UpdatePage',
+      params: {
+        appInfo: appInfo,
+      }
     });
   }
 
@@ -148,6 +181,11 @@ class LoginPage extends Component {
 
     const phone = this.state.phoneText;
     const psw = this.state.pswText;
+
+    if (phone == null || psw == null) {
+      alert('请确认您的账户与密码都填了!');
+      return;
+    }
 
     const pswMd5 = md5(psw);
 

@@ -76,6 +76,8 @@ class SliderView extends React.Component {
         left: leftImageDefaultLeft,
       },
     };
+
+    this.reset = this.reset.bind(this);
   }
 
   componentWillMount() {
@@ -127,6 +129,10 @@ class SliderView extends React.Component {
     });
   }
 
+  reset() {
+    this.moveStyles.style.left = leftImageDefaultLeft;
+    this.updateNativeStyles();
+  }
 
   updateNativeStyles() {
     this.leftImage.setNativeProps(this.moveStyles);

@@ -1,19 +1,20 @@
 const CommonStyle = {
-  themeColor: 'white',
-  themeColorGreen: 'rgb(88, 156, 157)',
+  themeColor: '#F8F8F8',
+  themeColorGreen: '#529C9D',
   themeColorRed: 'rgb(203, 187, 224)',
   commonBg: '#e8e8e8',
   commonGray: '#f8f8f8',
-  fontGray: 'gray',
-  iconGray: '#000000',
-  dividerGray: '#f8f8f8',
+  fontGray: '#666666',
+  fontDarker: '#333333',
+  iconGray: '#4F4F4F',
+  dividerGray: '#DEDEDE',
   iconSizeHuge: 60,
   iconSizeBig: 40,
   iconSize: 30,
   iconSizeSmall: 24,
   pageHorizontalMargin: 10,
   borderWidth: 1,
-  commonRowHeight: 60,
+  commonRowHeight: 50,
   commonRadius: 5,
   mediumButtonHeight: 35,
   mediumButtonWidth: 90,
@@ -28,9 +29,10 @@ const CommonStyle = {
   // mine
   userInfoAreaHeight: 120,
   //
-  navBarHeight: 56,
+  navBarHeight: 46,
   bigFont: 20,
   mediumFont: 16,
+  fontSizeMedium: 16,
 };
 
 module.exports = CommonStyle;

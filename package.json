@@ -1,6 +1,6 @@
 {
   "name": "reemii.tutu.driver",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start"
@@ -17,6 +17,8 @@
     "react-native-material-toolbar": "^1.1.9",
     "react-native-spinkit": "^0.1.2",
     "react-native-vector-icons": "^2.0.3",
+    "react-native-version": "^2.0.1",
+    "react-native-version-number": "^0.1.1",
     "react-native-xtabbar": "^0.2.1",
     "ypromise": "^0.3.0"
   },

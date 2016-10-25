@@ -1,15 +1,15 @@
 import {
 	StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
+  	View,
+  	Text,
+  	TouchableOpacity,
 	ListView,
 	RefreshControl,
 } from 'react-native';
 
 import React, {
 	PropTypes,
-  Component,
+  	Component,
 } from 'react';
 
 import CommonStyle from './res/CommonStyle';
@@ -105,6 +105,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: CommonStyle.commonRowHeight * 2,
   },
+	addressArea1x: {
+		flexDirection: 'row',
+		height: CommonStyle.commonRowHeight,
+	},
 	dotLine: {
 		borderStyle: 'dotted',
 		borderWidth: CommonStyle.borderWidth,
@@ -183,6 +187,7 @@ const styles = StyleSheet.create({
 const TYPE_PIN = 0;
 const TYPE_BAO = 1;
 const TYPE_AIR = 2;
+const TYPE_GONG = 3;
 
 function ListPinItem({navigator, order}) {
 
@@ -295,6 +300,108 @@ function ListPinItem({navigator, order}) {
   );
 };
 
+function ListGongItem({navigator, order}) {
+
+	const goToOrderGovDetailPage = function() {
+		navigator.push(
+			{
+					name: 'OrderGovDetailPage',
+					params: {
+						order: order,
+					},
+			}
+		);
+	};
+
+	return (
+		<TouchableOpacity
+			style={styles.cardBg}
+			onPress={goToOrderGovDetailPage}
+		>
+
+      <View style={styles.commonRow}>
+        <Text style={styles.textStatus}>
+          {StringRes.getOrderStatus(order.status)}
+        </Text>
+
+
+				<View style={styles.textTypeArea}>
+					<Text style={styles.textType}>
+						公
+					</Text>
+    		</View>
+
+      </View>
+
+      <View style={styles.commonRowVertical}>
+        <Text style={styles.textTripNoPro}>
+          派单号: {order.id}
+      	</Text>
+      </View>
+
+
+      <View style={styles.addressArea1x}>
+
+        {/*left icon area*/}
+        <View>
+          <View style={styles.startIcon}>
+            <Text style={styles.textIcon}>
+              起
+            </Text>
+          </View>
+        </View>
+
+        {/*right address info*/}
+        <View style={styles.startEndArea}>
+
+          <View style={styles.textAddressArea}>
+            <Text style={styles.textAddress}>
+              {order.start_place}
+            </Text>
+          </View>
+        </View>
+
+      </View>
+
+      <View style={styles.commonRow}>
+        <Text style={styles.textSendingTime}>
+          发车时间: {order.use_time}
+        </Text>
+      </View>
+
+			<View style={styles.lastRow}>
+
+				<View style={styles.userLeftIconArea}>
+					<Icon
+						name='ios-person'
+						size={CommonStyle.iconSize}>
+					</Icon>
+				</View>
+
+				<Text style={styles.textUserInfo}>
+					{order.user.username} {StringRes.getEncodePhoneNum(order.user.phone)}
+				</Text>
+
+				<TouchableOpacity style={styles.userRightIconArea}
+					onPress={() => {
+							// Communications.phonecall(order.order_busices[0].user_phone, true);;
+							Communications.phonecall(order.user.phone, true);;
+						}
+					}
+
+				>
+					<Icon
+						name='ios-call'
+						size={CommonStyle.iconSize}>
+					</Icon>
+				</TouchableOpacity>
+
+			</View>
+
+    </TouchableOpacity>
+		);
+}
+
 function ListAirItem({navigator, order}) {
 
 	let orderCount = 1;
@@ -359,7 +466,7 @@ function ListAirItem({navigator, order}) {
 
       <View style={styles.addressArea}>
 
-        {/*left icon area*/}
+
         <View>
           <View style={styles.startIcon}>
             <Text style={styles.textIcon}>
@@ -377,7 +484,7 @@ function ListAirItem({navigator, order}) {
           </View>
         </View>
 
-        {/*right address info*/}
+
         <View style={styles.startEndArea}>
 
           <View style={styles.textAddressArea}>
@@ -663,6 +770,11 @@ class TripList extends Component {
 				console.log('success, page = ' + this.state.page + ' data.size = ' + data.length);
 
 				if (this.state.page === 1) {
+					if (data.length == 0) {
+						// for empty view
+						data = ['bilibili'];
+					}
+
 					this.setState({
 					 dataSource: this.state.dataSource.cloneWithRows(data),
 					 data,
@@ -681,10 +793,34 @@ class TripList extends Component {
  				}
 			},
 			failed: msg => {
+				var data = [];
+
+				// for empty view
+				data = ['bilibili'];
+
+				// data.push(JSON.parse('{ "id": "6e5134d1ef3e4dbbba0c6f87b8434408", "car_id": "7a29c859f52d4a54bae838f069f9866e", "staff_id": "3aab99ebd6b34c328ebef84d30514e68", "user_id": "70550e1b04884171a83b1fea9fe80ad1", "start_place": "滇缅大道137号", "start_lat": 25, "start_lng": 102, "fact_start_place": null, "fact_start_lat": null, "fact_start_lng": null, "fact_end_place": null, "fact_end_lat": null, "fact_end_lng": null, "use_time": "2016-10-20 22:00:00", "start_time": null, "end_time": null, "start_mile": null, "end_mile": null, "total_fee": null, "status": "normal", "create_date": "2016-10-19 17:06:37", "status_date": "2016-10-20 10:15:47", "type": 3, "car": { "id": "7a29c859f52d4a54bae838f069f9866e", "model": "ABCD", "shift": "手动", "volume": "1.6", "color": "白", "seat": 4, "text": null, "avatar": null, "car_num": "云A11011", "car_start_date": "2016-10-03 00:00:00", "car_category_id": 1, "is_charter": 1, "is_special": 1, "staff_id": "29cdcf8beafa455ab2d5cc3be8b19fd1", "is_rent": 1, "status": 0, "area_id": 530100, "company_id": "2b00e97a2a2a45ab9f5fb92982910bc8", "create_date": "2016-10-10 15:35:53", "status_date": "2016-10-18 15:05:19" }, "user": { "id": "70550e1b04884171a83b1fea9fe80ad1", "avatar": null, "username": "雷锋", "password": "202CB962AC59075B964B07152D234B70", "phone": "13220161903", "sex": 1, "openid": null, "account": 9977945.23, "company_id": null, "status": 1, "create_date": "2016-10-11 16:46:48", "status_date": "2016-10-18 11:15:00" }, "driver": { "id": "3aab99ebd6b34c328ebef84d30514e68", "avatar": null, "name": "龚江鹏", "phone": "18502818214", "id_card": "530112199108191618", "driving_license_type": 1, "driving_license": "530112199108191618", "stars": 0, "account": 0, "status": 1, "car_num": "云A11111", "model": "EDC", "company_id": "2b00e97a2a2a45ab9f5fb92982910bc8", "company_name": "你猜" }, "evaluate": null, "car_price": { "id": "1ee3927c1b0141979e2da8f6b2845c42", "car_id": "7a29c859f52d4a54bae838f069f9866e", "day_price": 100, "base_mile": 80, "mile_price": 1.2, "base_hour": 8, "hour_price": 1, "create_date": "2016-10-12 15:40:39", "status_date": "2016-10-19 13:10:05" }, "order_fee_detail_list": [ ] }'));
+				//
+				// console.log('data = ' + JSON.stringify(data));
+				//
+				// var hasMore = false;
+				//
+				// try{
+				// 	this.setState({
+				// 	 dataSource: this.state.dataSource.cloneWithRows(data),
+				// 	 data,
+				// 	 hasMore,
+				// 	 refreshing: false,
+				// 	});
+				// } catch (e) {
+				// 	console.log(e);
+				// }
+
 				if (this.props.loadingViewFunc != null) {
 					this.props.loadingViewFunc(false);
 				}
+
 				alert(msg);
+
 			},
 		};
 
@@ -715,7 +851,31 @@ class TripList extends Component {
 
 	renderItem(rowData) {
 		console.log('rowData.type = ' + rowData.type);
-		if (rowData.type == TYPE_PIN) {
+		if ('bilibili' == rowData) {
+			return (
+				<View style={
+					{
+						height: 400,
+						alignItems: 'center',
+						justifyContent: 'center',
+					}
+				}>
+
+				<Text
+					style={
+						{
+
+						}
+					}
+				>
+						您暂时没有订单任务，可以下拉刷新试试哦。
+				</Text>
+
+
+				</View>
+			)
+		}
+		else if (rowData.type == TYPE_PIN) {
 			return (
 				<ListPinItem
 					navigator={this.props.navigator}
@@ -736,22 +896,33 @@ class TripList extends Component {
 					order={rowData}
 				/>
 			);
+		} else if (rowData.type == TYPE_GONG) {
+			return (
+				<ListGongItem
+					navigator={this.props.navigator}
+					order={rowData}
+				/>
+			);
 		}
 	}
 
   render() {
       return (
-					<ListView
-						dataSource={this.state.dataSource}
-						renderRow={(rowData) => this.renderItem(rowData)}
-						onEndReached={this.loadMoreOrderList}
-						refreshControl={
-		          <RefreshControl
-		            refreshing={this.state.refreshing}
-		            onRefresh={this.reloadOrderList}
-		          />
-		        }
-					/>
+					<View style={ {flex: 1} }>
+						<ListView
+							style={ {flex: 1} }
+							dataSource={this.state.dataSource}
+							renderRow={(rowData) => this.renderItem(rowData)}
+							onEndReached={this.loadMoreOrderList}
+							refreshControl={
+			          <RefreshControl
+			            refreshing={this.state.refreshing}
+			            onRefresh={this.reloadOrderList}
+			          />
+			        }
+						/>
+     			</View>
+
   	   );
   }
 }
