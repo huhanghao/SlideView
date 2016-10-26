@@ -36,6 +36,8 @@ const StringRes = {
           return '订单已取消';
       case 'paid':
           return '订单已支付';
+      case 'evaluted':
+          return '订单已完成评价';
       default:
         return '派车成功';
     }

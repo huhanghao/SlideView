@@ -156,6 +156,10 @@ class OrderGovDetailPage extends React.Component {
   resetSlider() {
     if (this.slider != null)
       this.slider.reset();
+    this.setState({
+      dialogVisiable: false,
+      dialogTwoLineVisiable: false,
+    })
   }
 
   showStartDialog() {
@@ -200,6 +204,7 @@ class OrderGovDetailPage extends React.Component {
 
         this.setState({
           isLoading: false,
+          dialogVisiable: false,
         });
 
         const address = data.formatted_address;
@@ -246,7 +251,6 @@ class OrderGovDetailPage extends React.Component {
 
        this.setState({
          isLoading: false,
-         dialogVisiable: false,
        });
 
        this.refresh();
@@ -295,6 +299,7 @@ class OrderGovDetailPage extends React.Component {
 
        this.setState({
          isLoading: false,
+         dialogTwoLineVisiable: false,
        });
 
        this.refresh();
@@ -334,6 +339,7 @@ class OrderGovDetailPage extends React.Component {
 
        this.setState({
          isLoading: false,
+         dialogVisiable: false,
        });
        this.refresh();
      },

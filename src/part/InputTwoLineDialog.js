@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     borderColor: CommonStyle.dividerGray,
     borderWidth: 1,
     backgroundColor: 'white',
-    height: 200,
+    height: 300,
     marginHorizontal: 10,
   },
   dialogTitle: {

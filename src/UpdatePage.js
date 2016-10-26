@@ -44,12 +44,12 @@ class UpdatePage extends React.Component {
   }
 
   onCancelPressed() {
-    // if (this.props.appInfo.is_enforce) {
-    //   // gg
-    //   BackAndroid.exitApp();
-    // } else {
+    if (this.props.appInfo.is_enforce) {
+      // gg
+      BackAndroid.exitApp();
+    } else {
       this.props.navigator.pop();
-    // }
+    }
   }
 
   onConfirmPressed() {
@@ -82,6 +82,7 @@ class UpdatePage extends React.Component {
             style={
               {
                 textAlign: "center",
+                fontSize: 15,
               }
             }
           >
@@ -121,7 +122,6 @@ class UpdatePage extends React.Component {
               height: 50,
               flexDirection: 'row',
               alignItems: 'center',
-              backgroundColor: CommonStyle.themeColor,
             }
           }
         >
@@ -142,6 +142,7 @@ class UpdatePage extends React.Component {
                 {
                   textAlign: "center",
                   color: CommonStyle.themeColorGreen,
+                  fontSize: 15,
                 }
               }
             >

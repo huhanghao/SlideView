@@ -18,12 +18,12 @@ const ApiUtils = {
   // BASE_URL_WITH_OUT_TOKEN: 'http://tuyue.reemii.cn',
   //
   // TOKEN_URL: 'http://tuyue.reemii.cn/common/staff/token',
-  // BASE_URL: 'http://120.76.29.221:8080/staff/',
-  // BASE_URL_WITH_OUT_TOKEN: 'http://120.76.29.221:8080/',
-  // TOKEN_URL: 'http://120.76.29.221:8080/common/staff/token',
-  BASE_URL: 'http://192.168.1.194:8080/staff/',
-  BASE_URL_WITH_OUT_TOKEN: 'http://192.168.1.194:8080/',
-  TOKEN_URL: 'http://192.168.1.194:8080/common/staff/token',
+  BASE_URL: 'http://120.76.29.221:8080/staff/',
+  BASE_URL_WITH_OUT_TOKEN: 'http://120.76.29.221:8080/',
+  TOKEN_URL: 'http://120.76.29.221:8080/common/staff/token',
+  // BASE_URL: 'http://192.168.1.191:8080/staff/',
+  // BASE_URL_WITH_OUT_TOKEN: 'http://192.168.1.191:8080/',
+  // TOKEN_URL: 'http://192.168.1.191:8080/common/staff/token',
   // BASE_URL: 'http://192.168.1.114:8080/tuyue/staff/',
   //
   // BASE_URL_WITH_OUT_TOKEN: 'http://192.168.1.114:8080/tuyue/',
