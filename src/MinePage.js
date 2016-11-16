@@ -154,13 +154,18 @@ class MinePage extends React.Component {
             <View style={styles.avatarArea}>
               <Image source={avatar} style={styles.avatar} />
             </View>
-            <Text>
+            <Text style={styles.textName}>
               {this.state.user == null ? "" : this.state.user.name}
             </Text>
 
             {/*<RightArrow />*/}
           </View>
 
+          <FuncItem icon={'ios-star'} text={'关于我们'}
+            onClick={
+              ()=>this.props.navigator.push({name: 'AboutUsPage'})
+            }
+          />
           <FuncItem icon={'ios-log-out'} text={'退出登录'} onClick={this.logout}/>
 
           {/* <FuncItem icon={'ios-home'} text={'车队信息'} />

@@ -253,6 +253,8 @@ class OrderAirrDetailPage extends React.Component {
 			order_bus_id: id,
 		}
 
+    // alert(JSON.stringify(params));
+
 		ApiUtils.postRequest({funcName: '/busline/order/check/static', params, callback});
 	}
 

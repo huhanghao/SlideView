@@ -82,7 +82,6 @@ class UpdatePage extends React.Component {
             style={
               {
                 textAlign: "center",
-                fontSize: 15,
               }
             }
           >
@@ -122,6 +121,7 @@ class UpdatePage extends React.Component {
               height: 50,
               flexDirection: 'row',
               alignItems: 'center',
+              backgroundColor: CommonStyle.themeColor,
             }
           }
         >
@@ -142,7 +142,6 @@ class UpdatePage extends React.Component {
                 {
                   textAlign: "center",
                   color: CommonStyle.themeColorGreen,
-                  fontSize: 15,
                 }
               }
             >

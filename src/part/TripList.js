@@ -379,7 +379,7 @@ function ListGongItem({navigator, order}) {
 				</View>
 
 				<Text style={styles.textUserInfo}>
-					{order.user.username} {StringRes.getEncodePhoneNum(order.user.phone)}
+					{order.user == null ? '' : order.user.username} {order.user == null ? '' : StringRes.getEncodePhoneNum(order.user.phone)}
 				</Text>
 
 				<TouchableOpacity style={styles.userRightIconArea}

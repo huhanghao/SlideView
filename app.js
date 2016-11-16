@@ -15,6 +15,8 @@ import UpdatePage from './src/UpdatePage';
 import MineRatingPage from './src/MineRatingPage';
 import QRcodePageAndroid from './src/part/QRCodeScreenAndroid';
 import QRcodePageiOS from './src/part/QRCodeScreen';
+import ChangePSWPage from './src/ChangePSWPage';
+import AboutUsPage from './src/AboutUsPage';
 
 const initialRoute = { name: 'LoginPage' };
 
@@ -66,6 +68,16 @@ function RouteMapper(route, navigation) {
     return (
       <UpdatePage
         {...route.params}
+        navigator={navigation} />
+    )
+  } else if (route.name === 'ChangePSWPage') {
+    return (
+      <ChangePSWPage
+        navigator={navigation} />
+    )
+  } else if (route.name === 'AboutUsPage') {
+    return (
+      <AboutUsPage
         navigator={navigation} />
     )
   }

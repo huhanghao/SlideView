@@ -169,6 +169,7 @@ class LoginPage extends Component {
         AsyncStorage.setItem('phone', this.state.phoneText);
         AsyncStorage.setItem('password', this.state.pswText);
 
+        // alert(JSON.stringify(data));
         this.goToMain();
       },
       failed: msg => {
@@ -254,7 +255,13 @@ class LoginPage extends Component {
               onChangeText={(text) => this.setState({ pswText: text })}
               value={this.state.pswText}
             />
-             <Text style={styles.findPSWFont}>{StringRes.forget}</Text>
+             <TouchableOpacity
+              onPress={()=>this.props.navigator.push({
+                name: 'ChangePSWPage',
+              })}
+             >
+              <Text style={styles.findPSWFont}>{StringRes.forget_password}</Text>
+             </TouchableOpacity>
           </View>
 
           <TouchableOpacity
