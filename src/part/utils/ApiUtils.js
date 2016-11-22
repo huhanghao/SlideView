@@ -10,17 +10,17 @@ import VersionNumber from 'react-native-version-number';
 
 const ApiUtils = {
   //
-  // BASE_URL: 'http://tt.jt169.com/staff/',    // 线上服务器
-  // BASE_URL_WITH_OUT_TOKEN: 'http://tt.jt169.com/',
-  // TOKEN_URL: 'http://tt.jt169.com/common/staff/token',
+  BASE_URL: 'http://tt.jt169.com/staff/',    // 线上服务器
+  BASE_URL_WITH_OUT_TOKEN: 'http://tt.jt169.com/',
+  TOKEN_URL: 'http://tt.jt169.com/common/staff/token',
   // BASE_URL: 'http://tuyue.reemii.cn/staff/',
   //
   // BASE_URL_WITH_OUT_TOKEN: 'http://tuyue.reemii.cn',
   //
   // TOKEN_URL: 'http://tuyue.reemii.cn/common/staff/token',
-  BASE_URL: 'http://120.76.29.221:8080/staff/',
-  BASE_URL_WITH_OUT_TOKEN: 'http://120.76.29.221:8080/',
-  TOKEN_URL: 'http://120.76.29.221:8080/common/staff/token',
+  // BASE_URL: 'http://120.76.29.221:8080/staff/',
+  // BASE_URL_WITH_OUT_TOKEN: 'http://120.76.29.221:8080/',
+  // TOKEN_URL: 'http://120.76.29.221:8080/common/staff/token',
   // BASE_URL: 'http://192.168.1.183:8080/staff/',
   // BASE_URL_WITH_OUT_TOKEN: 'http://192.168.1.183:8080/',
   // TOKEN_URL: 'http://192.168.1.183:8080/common/staff/token',

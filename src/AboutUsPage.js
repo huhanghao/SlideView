@@ -21,8 +21,8 @@ import TitleBar from './part/TitleBar';
 import VersionNumber from 'react-native-version-number';
 import Communications from 'react-native-communications';
 
-const Tel = '0871-64589278';
-const Url = 'http://www.baidu.com';
+const Tel = '0871-65395815';
+const Url = 'http://jt169.com';
 const logo = require('./part/img/logo.png');
 
 const styles = StyleSheet.create({
@@ -138,11 +138,11 @@ class AboutUsPage extends React.Component {
         >
 
           <Text>
-            云南芮米科技有限公司 版权所有
+            悦途科技 版权所有
           </Text>
 
           <Text>
-            Copyright © 2015-2016 Reemii
+            Copyright © 2015-2016 YueTu
           </Text>
 
           <Text>
