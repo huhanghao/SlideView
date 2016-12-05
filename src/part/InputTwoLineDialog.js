@@ -13,6 +13,7 @@ import React,{
 
 import CommonStyle from './res/CommonStyle';
 import StringRes from './res/StringRes';
+import AlertUtils from './utils/AlertUtils';
 
 const styles = StyleSheet.create({
   container: {
@@ -92,6 +93,12 @@ class InputTwoLineDialog extends React.Component {
   }
 
   confirm() {
+    if (this.state.inputValue1 == null || this.state.inputValue1.length == 0
+        || this.state.inputValue2 == null || this.state.inputValue2.length == 0) {
+          AlertUtils.alert('有需要填入的内容还未填入')
+          return
+        }
+
     this.setState({
       modalVisible: false,
     });

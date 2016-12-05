@@ -24,6 +24,7 @@ import StringRes from './part/res/StringRes';
 import CommonStyle from './part/res/CommonStyle';
 
 import ApiUtils from './part/utils/ApiUtils';
+import AlertUtils from './part/utils/AlertUtils';
 import md5 from 'md5';
 
 import Spinner from 'react-native-spinkit';
@@ -141,7 +142,7 @@ class ChangePSWPage extends Component {
 
   sendSMSCode() {
     if (this.state.phoneText.length < 11) {
-      alert('请填入正确的手机号');
+      AlertUtils.alert('请填入正确的手机号');
       return;
     }
 
@@ -162,36 +163,36 @@ class ChangePSWPage extends Component {
     };
 
     ApiUtils.post({url, params}).then(json => {
-      // alert(JSON.stringify(json));
+      // AlertUtils.alert(JSON.stringify(json));
       // if (json.code == 0) {
-        alert('验证码已成功发送，请注意查收');
+        AlertUtils.alert('验证码已成功发送，请注意查收');
       // } else {
-      //   alert(json.msg == null ? '验证码发送失败, 请重试' : json.msg);
+      //   AlertUtils.alert(json.msg == null ? '验证码发送失败, 请重试' : json.msg);
       // }
       // callback.success(json);
 
       // LoadingView.dismiss();
     })
     .catch(e => {
-      // alert('发送验证码失败, 请重试');
-      alert(JSON.stringify(e));
+      // AlertUtils.alert('发送验证码失败, 请重试');
+      AlertUtils.alert(JSON.stringify(e));
       // callback.failed(e.toString());
     });
   }
 
   updatePSW() {
     if (this.state.phoneText.length < 11) {
-      alert('请填入正确的手机号');
+      AlertUtils.alert('请填入正确的手机号');
       return;
     }
 
     if (this.state.phoneCode.length == 0) {
-      alert('请填入验证码');
+      AlertUtils.alert('请填入验证码');
       return;
     }
 
     if (this.state.pswText !== this.state.pswReText) {
-      alert('两次输入的密码不一致');
+      AlertUtils.alert('两次输入的密码不一致');
       return;
     }
 
@@ -203,17 +204,17 @@ class ChangePSWPage extends Component {
     };
 
     ApiUtils.post({url, params}).then(json => {
-      // alert(JSON.stringify(json));
+      // AlertUtils.alert(JSON.stringify(json));
       // if (json.code == 0) {
-        alert('修改密码成功，请使用新密码登陆');
+        AlertUtils.alert('修改密码成功，请使用新密码登陆');
         this.props.navigator.pop();
       // } else {
-      //   alert(json.msg == null ? '修改密码失败, 请重试' : json.msg);
+      //   AlertUtils.alert(json.msg == null ? '修改密码失败, 请重试' : json.msg);
       // }
     })
     .catch(e => {
-        alert('修改密码失败, 请重试');
-      // alert(JSON.stringify(e));
+        AlertUtils.alert('修改密码失败, 请重试');
+      // AlertUtils.alert(JSON.stringify(e));
       // callback.failed(e.toString());
     });
   }

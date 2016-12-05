@@ -24,6 +24,7 @@ import StringRes from './part/res/StringRes';
 import CommonStyle from './part/res/CommonStyle';
 
 import ApiUtils from './part/utils/ApiUtils';
+import AlertUtils from './part/utils/AlertUtils';
 import md5 from 'md5';
 
 import Spinner from 'react-native-spinkit';
@@ -173,7 +174,7 @@ class LoginPage extends Component {
         this.goToMain();
       },
       failed: msg => {
-        alert(msg);
+        AlertUtils.alert(msg);
         this.setState({
           isLoading: false,
         })
@@ -184,7 +185,7 @@ class LoginPage extends Component {
     const psw = this.state.pswText;
 
     if (phone == null || psw == null) {
-      alert('请确认您的账户与密码都填了!');
+      AlertUtils.alert('请确认您的账户与密码都填了!');
       return;
     }
 

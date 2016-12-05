@@ -20,6 +20,7 @@ import CommonStyle from './part/res/CommonStyle';
 import StringRes from './part/res/StringRes';
 import TitleBar from './part/TitleBar';
 import ApiUtils from './part/utils/ApiUtils';
+import AlertUtils from './part/utils/AlertUtils';
 
 // 组件们
 import SliderView from './part/SliderView';
@@ -217,8 +218,8 @@ class OrderGovDetailPage extends React.Component {
          });
       },
       failed: (msg) => {
-        // alert(msg);
-        alert('发车失败，地点信息异常，请重试。')
+        // AlertUtils.alert(msg);
+        AlertUtils.alert('发车失败，地点信息异常，请重试。')
         this.setState({
           isLoading: false,
         });
@@ -230,7 +231,7 @@ class OrderGovDetailPage extends React.Component {
     });
 
     if (this.state.lastPosition == null) {
-      alert("发车失败，地点信息异常，请确保已打开GPS后重试！")
+      AlertUtils.alert("发车失败，地点信息异常，请确保已打开GPS后重试！")
       return;
     }
 
@@ -256,7 +257,7 @@ class OrderGovDetailPage extends React.Component {
        this.refresh();
      },
      failed: error => {
-       alert('与服务器通讯失败，请尝试重试!');
+       AlertUtils.alert('与服务器通讯失败，请尝试重试!');
        this.resetSlider();
        this.setState({
          isLoading: false,
@@ -305,7 +306,7 @@ class OrderGovDetailPage extends React.Component {
        this.refresh();
      },
      failed: error => {
-       alert('与服务器通讯失败，请尝试重试!');
+       AlertUtils.alert('与服务器通讯失败，请尝试重试!');
        this.setState({
          isLoading: false,
        });
@@ -344,7 +345,7 @@ class OrderGovDetailPage extends React.Component {
        this.refresh();
      },
      failed: error => {
-       alert('与服务器通讯失败，请尝试重试!');
+       AlertUtils.alert('与服务器通讯失败，请尝试重试!');
        this.setState({
          isLoading: false,
        });
@@ -386,7 +387,7 @@ class OrderGovDetailPage extends React.Component {
        });
      },
      failed: error => {
-       alert('与服务器通讯失败，请尝试重试!');
+       AlertUtils.alert('与服务器通讯失败，请尝试重试!');
        this.setState({
          isLoading: false,
          isRefreshing: false,
@@ -418,7 +419,7 @@ class OrderGovDetailPage extends React.Component {
           }
         );
       },
-      (error) => alert('获取位置失败，请确保您的手机GPS已打开'),
+      (error) => AlertUtils.alert('获取位置失败，请确保您的手机GPS已打开'),
         {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     );
     this.watchID = navigator.geolocation.watchPosition((position) => {

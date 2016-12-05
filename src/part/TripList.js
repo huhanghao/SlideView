@@ -18,6 +18,7 @@ import Communications from 'react-native-communications';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import ApiUtils from './utils/ApiUtils';
+import AlertUtils from './utils/AlertUtils';
 
 const styles = StyleSheet.create({
 	cardBg6x: {
@@ -819,7 +820,7 @@ class TripList extends Component {
 					this.props.loadingViewFunc(false);
 				}
 
-				alert(msg);
+				AlertUtils.alert(msg);
 
 			},
 		};

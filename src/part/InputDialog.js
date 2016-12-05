@@ -13,6 +13,7 @@ import React,{
 
 import CommonStyle from './res/CommonStyle';
 import StringRes from './res/StringRes';
+import AlertUtils from './utils/AlertUtils';
 
 const styles = StyleSheet.create({
   container: {
@@ -91,6 +92,11 @@ class InputDialog extends React.Component {
   }
 
   confirm() {
+    if (this.state.inputValue == null || this.state.inputValue.length == 0) {
+      AlertUtils.alert('您未填入任何数值!');
+      return
+    }
+
     this.setState({
       modalVisible: false,
     });

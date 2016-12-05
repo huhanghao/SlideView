@@ -15,6 +15,7 @@ import CommonStyle from './res/CommonStyle';
 import StringRes from './res/StringRes';
 import Communications from 'react-native-communications';
 import ApiUtils from './utils/ApiUtils';
+import AlertUtils from './utils/AlertUtils';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const styles = StyleSheet.create({

@@ -14,6 +14,7 @@ import React, {
 import CommonStyle from './res/CommonStyle';
 import StringRes from './res/StringRes';
 import ApiUtils from './utils/ApiUtils';
+import AlertUtils from './utils/AlertUtils';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Communications from 'react-native-communications';
 
@@ -350,17 +351,17 @@ class OrderBaoContent extends Component {
 	apiPick(subOrderId) {
 		const callback = {
 			success: () => {
-				alert('操作成功');
+				AlertUtils.alert('操作成功');
 				this.setState(
 					{
 						isRefreshing: false,
 					},
 				);
-				// alert(JSON.stringify(data));
+				// AlertUtils.alert(JSON.stringify(data));
 				this.onRefresh();
 			},
 			failed: (msg) => {
-				alert('apiPick failed ' + msg);
+				AlertUtils.alert('apiPick failed ' + msg);
 				this.setState(
 					{
 						isRefreshing: false,
@@ -380,17 +381,17 @@ class OrderBaoContent extends Component {
 	apiArrived(subOrderId) {
 		const callback = {
 			success: () => {
-				alert('操作成功');
+				AlertUtils.alert('操作成功');
 				this.setState(
 					{
 						isRefreshing: false,
 					},
 				);
 				this.onRefresh();
-				// alert(JSON.stringify(data));
+				// AlertUtils.alert(JSON.stringify(data));
 			},
 			failed: (msg) => {
-				alert('apiArrived failed ' + msg);
+				AlertUtils.alert('apiArrived failed ' + msg);
 				this.setState(
 					{
 						isRefreshing: false,

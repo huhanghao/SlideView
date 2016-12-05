@@ -18,6 +18,7 @@ import TitleBar from './part/TitleBar';
 import OrderPinContent from './part/OrderPinContent';
 import SliderView from './part/SliderView';
 import ApiUtils from './part/utils/ApiUtils';
+import AlertUtils from './part/utils/AlertUtils';
 
 
 const styles = StyleSheet.create({
@@ -95,7 +96,7 @@ class OrderPinDetailPage extends React.Component {
         this.refresh();
       },
       failed: (msg) => {
-        alert('发车失败 ' + msg);
+        AlertUtils.alert('发车失败 ' + msg);
       }
     };
 
@@ -103,7 +104,7 @@ class OrderPinDetailPage extends React.Component {
       id: this.state.order.id,
     };
 
-    // alert(JSON.stringify(params));
+    // AlertUtils.alert(JSON.stringify(params));
 
     ApiUtils.postRequest({funcName: 'busline/batch/start', params, callback});
   }
@@ -111,11 +112,11 @@ class OrderPinDetailPage extends React.Component {
   batchArrived() {
     const callback = {
       success: (data) => {
-        alert('到达目的地');
+        AlertUtils.alert('到达目的地');
         this.refresh();
       },
       failed: (msg) => {
-        alert('到达失败 ' + msg);
+        AlertUtils.alert('到达失败 ' + msg);
       }
     };
 
@@ -123,7 +124,7 @@ class OrderPinDetailPage extends React.Component {
       id: this.state.order.id,
     };
 
-    // alert(JSON.stringify(params));
+    // AlertUtils.alert(JSON.stringify(params));
 
     ApiUtils.postRequest({funcName: 'busline/batch/arrived', params, callback});
   }
@@ -138,10 +139,10 @@ class OrderPinDetailPage extends React.Component {
             order: data,
           },
         );
-        // alert(JSON.stringify(data));
+        // AlertUtils.alert(JSON.stringify(data));
       },
       failed: (msg) => {
-        alert('refresh failed ' + msg);
+        AlertUtils.alert('refresh failed ' + msg);
         this.setState(
           {
             isRefreshing: false,
@@ -154,7 +155,7 @@ class OrderPinDetailPage extends React.Component {
       id: this.state.order.id,
     }
 
-    // alert('refresh params ' + JSON.stringify(params));
+    // AlertUtils.alert('refresh params ' + JSON.stringify(params));
 
     ApiUtils.postRequest({funcName: 'busline/batch/info', params, callback});
   }
@@ -170,7 +171,7 @@ class OrderPinDetailPage extends React.Component {
   }
 
   renderBottomArea() {
-    // alert(this.state.order.status);
+    // AlertUtils.alert(this.state.order.status);
     if (this.state.order.status === 'assigned') {
       return (
         <SliderView eventListener={this.state.slederEventListener} />
