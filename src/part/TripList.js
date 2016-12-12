@@ -190,6 +190,7 @@ const TYPE_BAO = 1;
 const TYPE_AIR = 2;
 const TYPE_GONG = 3;
 
+
 function ListPinItem({navigator, order}) {
 
 	let orderCount = 1;
@@ -357,7 +358,7 @@ function ListGongItem({navigator, order}) {
 
           <View style={styles.textAddressArea}>
             <Text style={styles.textAddress}>
-              {order.start_place}
+              {order.start_area}
             </Text>
           </View>
         </View>

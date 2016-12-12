@@ -8,6 +8,7 @@ import {
   Dimensions,
   AsyncStorage,
   Linking,
+  BackAndroid,
 } from 'react-native';
 
 import React, {
@@ -99,8 +100,13 @@ const styles = StyleSheet.create({
 
 class ChangePSWPage extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
+    const backEventListener = () => {
+      this.props.navigator.pop();
+      return true;
+    };
 
     this.state = {
       phoneText: '',
@@ -111,6 +117,7 @@ class ChangePSWPage extends Component {
       smsButtonText: '发送验证码',
       isEnable: true,
       timeRemain: 60,
+      backEventListener,
     };
 
     this.sendSMSCode = this.sendSMSCode.bind(this);
@@ -119,7 +126,12 @@ class ChangePSWPage extends Component {
   }
 
   componentDidMount() {
+    BackAndroid.addEventListener('hardwareBackPress', this.state.backEventListener);
+  }
 
+  compnentWillUnmount() {
+    this.timer && clearInterval(this.timer);
+    BackAndroid.removeEventListener('hardwareBackPress', this.state.backEventListener);
   }
 
   countDownFunc() {
@@ -222,10 +234,6 @@ class ChangePSWPage extends Component {
 
   hideKeyboard() {
     dismissKeyboard();
-  }
-
-  compnentWillUnmount() {
-    this.timer && clearInterval(this.timer);
   }
 
   render() {
