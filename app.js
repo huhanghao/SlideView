@@ -17,6 +17,7 @@ import QRcodePageAndroid from './src/part/QRCodeScreenAndroid';
 import QRcodePageiOS from './src/part/QRCodeScreen';
 import ChangePSWPage from './src/ChangePSWPage';
 import AboutUsPage from './src/AboutUsPage';
+import RollBusPage from './src/RollBusPage';
 
 const initialRoute = { name: 'LoginPage' };
 
@@ -80,6 +81,11 @@ function RouteMapper(route, navigation) {
       <AboutUsPage
         navigator={navigation} />
     )
+  } else if (route.name === 'RollBusPage') {
+    return (
+      <RollBusPage
+        navigator={navigation} />
+    );
   }
 }
 

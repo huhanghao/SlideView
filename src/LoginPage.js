@@ -174,7 +174,7 @@ class LoginPage extends Component {
         this.goToMain();
       },
       failed: msg => {
-        AlertUtils.alert(msg);
+        AlertUtils.alert(JSON.stringify(msg));
         this.setState({
           isLoading: false,
         })

@@ -161,11 +161,18 @@ class MinePage extends React.Component {
             {/*<RightArrow />*/}
           </View>
 
+          <FuncItem icon={'ios-car'} text={'滚动发车'}
+            onClick={
+              ()=>this.props.navigator.push({name: 'RollBusPage'})
+            }
+          />
+
           <FuncItem icon={'ios-star'} text={'关于我们'}
             onClick={
               ()=>this.props.navigator.push({name: 'AboutUsPage'})
             }
           />
+
           <FuncItem icon={'ios-log-out'} text={'退出登录'} onClick={this.logout}/>
 
           {/* <FuncItem icon={'ios-home'} text={'车队信息'} />

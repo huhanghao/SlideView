@@ -16,9 +16,9 @@ const ApiUtils = {
   BASE_URL: 'http://120.76.29.221:8080/staff/',
   BASE_URL_WITH_OUT_TOKEN: 'http://120.76.29.221:8080/',
   TOKEN_URL: 'http://120.76.29.221:8080/common/staff/token',
-  // BASE_URL: 'http://192.168.1.183:8080/staff/',
-  // BASE_URL_WITH_OUT_TOKEN: 'http://192.168.1.183:8080/',
-  // TOKEN_URL: 'http://192.168.1.183:8080/common/staff/token',
+  // BASE_URL: 'http://192.168.1.173:8080/staff/',
+  // BASE_URL_WITH_OUT_TOKEN: 'http://192.168.1.173:8080/',
+  // TOKEN_URL: 'http://192.168.1.173:8080/common/staff/token',
   TIME_OUT: 5 * 1000,
   getLocalToken() {
     // return AsyncStorage.getItem('token');
