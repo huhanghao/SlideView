@@ -8,6 +8,7 @@ import {
   RefreshControl,
   Platform,
   Dimensions,
+  NativeModules,
 } from 'react-native';
 
 import React,{
@@ -22,6 +23,7 @@ import SliderView from './part/SliderView';
 import ApiUtils from './part/utils/ApiUtils';
 import AlertUtils from './part/utils/AlertUtils';
 const QRCodeScreen = require('./part/QRCodeScreenAndroid');
+const QRCodeReader = NativeModules.QRCodeReaderModule;
 
 // loading view
 import Spinner from 'react-native-spinkit';
@@ -193,11 +195,8 @@ class OrderAirrDetailPage extends React.Component {
         },
       });
     } else {
-      this.props.navigator.push({
-        name: 'QRcodePageAndroid',
-        params: {
-          onQRcodeRead: this.onQRcodeRead,
-        },
+      QRCodeReader.startToReadQRCode().then((content) => {
+        this.onQRcodeRead(content);
       });
     }
 
