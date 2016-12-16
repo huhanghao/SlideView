@@ -9,13 +9,13 @@ import VersionNumber from 'react-native-version-number';
 // import LoadingView from './LoadingView';
 
 const ApiUtils = {
-
-  BASE_URL: 'http://tt.jt169.com/staff/',    // 线上服务器
-  BASE_URL_WITH_OUT_TOKEN: 'http://tt.jt169.com/',
-  TOKEN_URL: 'http://tt.jt169.com/common/staff/token',
-  // BASE_URL: 'http://120.76.29.221:8080/staff/',  // 测试服
-  // BASE_URL_WITH_OUT_TOKEN: 'http://120.76.29.221:8080/',
-  // TOKEN_URL: 'http://120.76.29.221:8080/common/staff/token',
+  //
+  // BASE_URL: 'http://tt.jt169.com/staff/',    // 线上服务器
+  // BASE_URL_WITH_OUT_TOKEN: 'http://tt.jt169.com/',
+  // TOKEN_URL: 'http://tt.jt169.com/common/staff/token',
+  BASE_URL: 'http://120.76.29.221:8080/staff/',  // 测试服
+  BASE_URL_WITH_OUT_TOKEN: 'http://120.76.29.221:8080/',
+  TOKEN_URL: 'http://120.76.29.221:8080/common/staff/token',
   // BASE_URL: 'http://192.168.1.173:8080/staff/',  // 局域网
   // BASE_URL_WITH_OUT_TOKEN: 'http://192.168.1.173:8080/',
   // TOKEN_URL: 'http://192.168.1.173:8080/common/staff/token',
