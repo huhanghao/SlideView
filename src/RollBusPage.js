@@ -10,6 +10,7 @@ import {
   Dimensions,
   ListView,
   AsyncStorage,
+  NativeModules,
 } from 'react-native';
 
 import React,{
@@ -24,6 +25,8 @@ import SliderView from './part/SliderView';
 import ApiUtils from './part/utils/ApiUtils';
 import AlertUtils from './part/utils/AlertUtils';
 const QRCodeScreen = require('./part/QRCodeScreenAndroid');
+
+const QRCodeReader = NativeModules.QRCodeReaderModule;
 
 // loading view
 import Spinner from 'react-native-spinkit';
@@ -299,11 +302,8 @@ class RollBusPage extends React.Component {
         },
       });
     } else {
-      this.props.navigator.push({
-        name: 'QRcodePageAndroid',
-        params: {
-          onQRcodeRead: this.onQRcodeRead,
-        },
+      QRCodeReader.startToReadQRCode().then((content) => {
+        this.onQRcodeRead(content);
       });
     }
 
@@ -477,7 +477,7 @@ class RollBusPage extends React.Component {
           refreshControl={
             <RefreshControl
               refreshing={this.state.isRefreshing}
-              onRefresh={this.refresh}
+              onRefresh={this.jugeWhatToDo}
             />
           }
         >

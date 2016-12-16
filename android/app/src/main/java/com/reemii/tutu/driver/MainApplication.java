@@ -13,6 +13,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
+import com.reemii.rn.library.qrcodereader.QRCodeReaderPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +34,8 @@ public class MainApplication extends Application implements ReactApplication {
           new BarcodeScannerPackage(),
           new RCTCameraPackage(),
           new VectorIconsPackage(),
-          new RNSpinkitPackage()
+          new RNSpinkitPackage(),
+          new QRCodeReaderPackage()
       );
     }
   };
