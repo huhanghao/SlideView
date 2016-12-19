@@ -9,13 +9,13 @@ import VersionNumber from 'react-native-version-number';
 // import LoadingView from './LoadingView';
 
 const ApiUtils = {
-  //
-  // BASE_URL: 'http://tt.jt169.com/staff/',    // 线上服务器
-  // BASE_URL_WITH_OUT_TOKEN: 'http://tt.jt169.com/',
-  // TOKEN_URL: 'http://tt.jt169.com/common/staff/token',
-  BASE_URL: 'http://120.76.29.221:8080/staff/',  // 测试服
-  BASE_URL_WITH_OUT_TOKEN: 'http://120.76.29.221:8080/',
-  TOKEN_URL: 'http://120.76.29.221:8080/common/staff/token',
+  IS_ONLINE_MODE : false,
+  BASE_URL_ONLINE: 'http://tt.jt169.com/staff/',    // 线上服务器
+  BASE_URL_WITH_OUT_TOKEN_ONLINE: 'http://tt.jt169.com/',
+  TOKEN_URL_ONLINE: 'http://tt.jt169.com/common/staff/token',
+  BASE_URL_DEBUG: 'http://120.76.29.221:8080/staff/',  // 测试服
+  BASE_URL_WITH_OUT_TOKEN_DEBUG: 'http://120.76.29.221:8080/',
+  TOKEN_URL_DEBUG: 'http://120.76.29.221:8080/common/staff/token',
   // BASE_URL: 'http://192.168.1.173:8080/staff/',  // 局域网
   // BASE_URL_WITH_OUT_TOKEN: 'http://192.168.1.173:8080/',
   // TOKEN_URL: 'http://192.168.1.173:8080/common/staff/token',
@@ -114,7 +114,7 @@ const ApiUtils = {
       setTimeout(() => reject(new Error('request timeout')), 5000);
     });
     const fetchToken = new Promise((resolve, reject) => {
-      let url = this.TOKEN_URL;
+      let url = this.IS_ONLINE_MODE ? this.TOKEN_URL_ONLINE : this.TOKEN_URL_DEBUG;
       const params = '?grant_type=password&phone='.concat(phone)
       .concat('&password=').concat(psw);
         // phone + '&password=' +
@@ -158,7 +158,7 @@ const ApiUtils = {
     AsyncStorage.getItem('token')
     .then(token => {
       const tokenObj = JSON.parse(token);
-      let url = this.TOKEN_URL;
+      let url = this.IS_ONLINE_MODE ? this.TOKEN_URL_ONLINE : this.TOKEN_URL_DEBUG;
       const urlParams = '?grant_type=refresh_token&refresh_token='.concat(tokenObj.refresh_token);
         // phone + '&password=' +
         // psw + '&client=driver';
@@ -206,7 +206,7 @@ const ApiUtils = {
       } else {
         // LoadingView.show('hi');
         const tokenObj = JSON.parse(token);
-        let url = this.BASE_URL + funcName;
+        let url = (this.IS_ONLINE_MODE ? this.BASE_URL_ONLINE : this.BASE_URL_DEBUG) + funcName;
         const urlToken = '?token='.concat(tokenObj.token);
         url += urlToken;
         return { url, params };
@@ -344,7 +344,7 @@ const ApiUtils = {
      */
 
     console.log(VersionNumber.appVersion);
-    const url = this.BASE_URL_WITH_OUT_TOKEN + 'common/staff/check_version';
+    const url = (this.IS_ONLINE_MODE ? this.BASE_URL_WITH_OUT_TOKEN_ONLINE : this.BASE_URL_WITH_OUT_TOKEN_DEBUG) + 'common/staff/check_version';
     const params = {
       mobile_type: (Platform.OS === 'ios') ? 'ios_driver': 'an_driver',
       mobile_version: VersionNumber.appVersion,

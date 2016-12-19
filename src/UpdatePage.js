@@ -16,6 +16,7 @@ import React,{
 import CommonStyle from './part/res/CommonStyle';
 import StringRes from './part/res/StringRes';
 import TitleBar from './part/TitleBar';
+import AlertUtils from './part/utils/AlertUtils';
 
 const styles = StyleSheet.create({
   container: {
@@ -53,6 +54,11 @@ class UpdatePage extends React.Component {
   }
 
   onConfirmPressed() {
+    if (this.props.appInfo.current_url == null) {
+      AlertUtils.alert('更新链接有误，暂时无法更新.');
+      this.props.navigator.pop();
+      return;
+    }
     Linking.openURL(this.props.appInfo.current_url)
       .catch(err => console.error('An error occurred', err));
   }

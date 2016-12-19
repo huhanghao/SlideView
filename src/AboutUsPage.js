@@ -20,6 +20,8 @@ import TitleBar from './part/TitleBar';
 
 import VersionNumber from 'react-native-version-number';
 import Communications from 'react-native-communications';
+import ApiUtils from './part/utils/ApiUtils';
+import AlertUtils from './part/utils/AlertUtils';
 
 const Tel = '0871-65395815';
 const Url = 'http://jt169.com';
@@ -133,8 +135,14 @@ class AboutUsPage extends React.Component {
           </Text>
         </TouchableOpacity>
 
-        <View
+        <TouchableOpacity
           style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', padding: 10}}
+          onPress={()=> {
+              if (!ApiUtils.IS_ONLINE_MODE) {
+                AlertUtils.alert('测试版本');
+              }
+            }
+          }
         >
 
           <Text>
@@ -149,7 +157,7 @@ class AboutUsPage extends React.Component {
             All Rights Reserved
           </Text>
 
-        </View>
+        </TouchableOpacity>
 
       </View>
     );
