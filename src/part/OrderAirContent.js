@@ -252,7 +252,7 @@ function ListHeader({order}) {
 				<View
 					style={styles.typeArea}
 				>
-				<Text style={styles.textType}>机</Text>
+				<Text style={styles.textType}>专</Text>
     		</View>
 
 				<Text

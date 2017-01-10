@@ -449,7 +449,7 @@ function ListAirItem({navigator, order}) {
 
 				<View style={styles.textTypeArea}>
 					<Text style={styles.textType}>
-						机
+						专
 					</Text>
     		</View>
 
