@@ -9,7 +9,7 @@ import VersionNumber from 'react-native-version-number';
 // import LoadingView from './LoadingView';
 
 const ApiUtils = {
-  IS_ONLINE_MODE : false,
+  IS_ONLINE_MODE : true,
   BASE_URL_ONLINE: 'http://tt.jt169.com/staff/',    // 线上服务器
   BASE_URL_WITH_OUT_TOKEN_ONLINE: 'http://tt.jt169.com/',
   TOKEN_URL_ONLINE: 'http://tt.jt169.com/common/staff/token',
