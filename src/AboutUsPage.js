@@ -23,7 +23,7 @@ import Communications from 'react-native-communications';
 import ApiUtils from './part/utils/ApiUtils';
 import AlertUtils from './part/utils/AlertUtils';
 
-const Tel = '0871-65395815';
+const Tel = '0871-63639688';
 const Url = 'http://jt169.com';
 const logo = require('./part/img/logo.png');
 
