@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv_doctor_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="3dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="-10dp"
+            android:layout_toRightOf="@+id/iv_doctor_avatar"
+            android:background="@mipmap/ic_launcher"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/lib_base_white"
+            android:textSize="8dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/tv_receive_time"
+            android:layout_toRightOf="@+id/iv_doctor_avatar"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="李医生"
+                android:textColor="@color/lib_base_colorAccent"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="[3]留意你的健康方案"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_receive_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="2017/04/03"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
